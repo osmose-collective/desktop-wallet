@@ -1,0 +1,62 @@
+{
+  "id": "osmose.testnet",
+  "name": "OSMOSE Testnet",
+  "title": "OSMOSE Testnet",
+  "server": "http://testnet.osmose.world:4003",
+  "description": "Osmose testnet, only for testing purpose.",
+  "imagePath": "networks/ark.png",
+  "apiVersion": 2,
+  "slip44": "1",
+  "market": {
+    "enabled": false,
+    "ticker": null
+  },
+  "feeStatistics": [
+    {
+      "type": 0,
+      "fees": {
+        "avgFee": 10000000,
+        "maxFee": 10000000,
+        "minFee": 10000000
+      }
+    },
+    {
+      "type": 1,
+      "fees": {
+        "avgFee": 500000000,
+        "maxFee": 500000000,
+        "minFee": 500000000
+      }
+    },
+    {
+      "type": 2,
+      "fees": {
+        "avgFee": 2500000000,
+        "maxFee": 2500000000,
+        "minFee": 2500000000
+      }
+    },
+    {
+      "type": 3,
+      "fees": {
+        "avgFee": 100000000,
+        "maxFee": 100000000,
+        "minFee": 100000000
+      }
+    }
+  ],
+  "constants": {
+    "activeDelegates": 51,
+    "epoch": "2019-02-25T10:00:00.000Z"
+  },
+  "nethash": "32d38282cfc302fd9d1fb2a7c1cdfc3683565333cea2e4ad1ba93a7cbea22169",
+  "explorer": "http://testnet.osmose.world",
+  "token": "TESTMOSE",
+  "subunit": "testtoshi",
+  "symbol": "TSM",
+  "fractionDigits": 8,
+  "version": 75,
+  "wif": 187,
+  "knownWallets": {
+  }
+}

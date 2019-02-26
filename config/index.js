@@ -4,13 +4,11 @@ exports.APP = {
 }
 
 exports.NETWORKS = [
-  require('./networks/mainnet.json'),
-  require('./networks/devnet.json')
+  require('./networks/osmose-testnet.json')
 ]
 
 exports.PEERS = {
-  'ark.mainnet': require('./peers/mainnet.json'),
-  'ark.devnet': require('./peers/devnet.json')
+  'osmose.testnet': require('./peers/osmose-testnet.json')
 }
 
 exports.ANNOUNCEMENTS = {
