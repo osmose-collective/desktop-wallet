@@ -33,7 +33,7 @@ export default {
     generate () {
       const qr = new QRious(Object.assign({
         element: this.$el,
-        value: this.value
+        value: 'osm:' + this.value
       }, this.options))
 
       return qr
