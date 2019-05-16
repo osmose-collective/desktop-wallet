@@ -47,16 +47,16 @@
   ],
   "constants": {
     "activeDelegates": 42,
-    "epoch": "2019-05-09T11:45:57.917Z"
+    "epoch": "2019-05-15T12:16:01.019Z"
   },
-  "nethash": "a6323bc37ad6e95ba3454b1fc5ecb860cb7a3e3ba5d2bac7ce1dce2a12fa7ddc",
+  "nethash": "2ff10d167c01e661eef477b55a4915cf881e924076f63f7f005e6f10a4383b53",
   "explorer": "http://testnet.osmose.world",
   "token": "OSMOSE",
   "subunit": "osmtoshi",
   "symbol": "OSM",
   "fractionDigits": 8,
   "version": 65,
-  "wif": 173,
+  "wif": 129,
   "knownWallets": {
   }
 }
