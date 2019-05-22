@@ -1,0 +1,16 @@
+[{
+  "ip": "testnet.osmose.world",
+  "port": 4103,
+  "isHttps": false,
+  "version": "2"
+}, {
+  "ip": "51.158.100.9",
+  "port": 4003,
+  "isHttps": false,
+  "version": "2"
+}, {
+  "ip": "163.172.132.125",
+  "port": 4003,
+  "isHttps": false,
+  "version": "2"
+}]
