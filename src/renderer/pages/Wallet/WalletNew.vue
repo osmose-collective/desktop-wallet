@@ -76,7 +76,7 @@
               tag="ul"
             >
               <li
-                v-for="(passphrase, address, index) in wallets"
+                v-for="(passphrase, address) in wallets"
                 :key="address"
                 :class="[
                   isSelected(address) ? 'WalletNew__wallets__address--selected' : 'WalletNew__wallets__address--unselected',
@@ -541,16 +541,6 @@ export default {
 
 .WalletNew__wallets__address + .WalletNew__wallets__address {
   @apply border-t border-dashed border-theme-line-separator
-}
-
-.WalletNew__wallets--selected .identicon {
-  opacity: 1;
-}
-.WalletNew__wallets--selected .WalletNew__wallets--address {
-  @apply .text-theme-wallet-new-selected;
-}
-.WalletNew__wallets--address {
-  transition: all 0.5s;
 }
 
 .WalletNew__ButtonReload-colorClass {

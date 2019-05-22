@@ -271,7 +271,7 @@ export default {
   @apply .flex .items-center .justify-between .bg-theme-feature .rounded-lg;
 }
 .ContactAll__header {
-  @apply .flex .items-center .justify-between;
+  @apply .flex .items-center .justify-between .h-8;
 }
 .ContactAll__grid {
   display: grid;

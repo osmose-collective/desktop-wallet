@@ -775,10 +775,6 @@ export default class ClientService {
     const now = moment().valueOf()
     transaction.data.timestamp = Math.floor((now - epochTime) / 1000)
 
-    const epochTime = moment(network.constants.epoch).utc().valueOf()
-    const now = moment().valueOf()
-    transaction.data.timestamp = Math.floor((now - epochTime) / 1000)
-
     if (passphrase) {
       transaction = transaction.sign(this.normalizePassphrase(passphrase))
     } else if (wif) {

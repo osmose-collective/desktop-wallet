@@ -273,10 +273,6 @@ export default {
       return this.$store.getters['ledger/isConnected']
     },
 
-    isExpanded () {
-      return this.showExpanded || this.hasBeenExpanded
-    },
-
     isLoadingLedger () {
       return this.$store.getters['ledger/isLoading'] && !this.ledgerWallets.length
     },
