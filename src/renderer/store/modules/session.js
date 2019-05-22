@@ -16,11 +16,13 @@ export default {
     walletLayout: null,
     walletSortParams: null,
     contactSortParams: null,
+    pluginSortParams: null,
     contentProtection: true,
     backgroundUpdateLedger: null,
     broadcastPeers: null,
     ledgerCache: null,
-    transactionTableRowCount: 10
+    transactionTableRowCount: 10,
+    unconfirmedVotes: []
   }),
 
   getters: {
@@ -40,7 +42,7 @@ export default {
       }
 
       const { networkId } = getters['profile']
-      var network = rootGetters['network/byId'](networkId)
+      let network = rootGetters['network/byId'](networkId)
 
       if (!network) {
         network = rootGetters['network/customNetworkById'](networkId)
@@ -56,16 +58,17 @@ export default {
     walletLayout: state => state.walletLayout,
     walletSortParams: state => state.walletSortParams,
     contactSortParams: state => state.contactSortParams,
+    pluginSortParams: state => state.pluginSortParams,
     language: state => state.language,
     bip39Language: state => state.bip39Language,
     name: state => state.name,
-    hasDarkTheme: state => state.theme === 'dark',
     hasWalletGridLayout: state => state.walletLayout === 'grid',
     contentProtection: state => state.contentProtection,
     backgroundUpdateLedger: state => state.backgroundUpdateLedger,
     broadcastPeers: state => state.broadcastPeers,
     ledgerCache: state => state.ledgerCache,
-    transactionTableRowCount: state => state.transactionTableRowCount
+    transactionTableRowCount: state => state.transactionTableRowCount,
+    unconfirmedVotes: state => state.unconfirmedVotes
   },
 
   mutations: {
@@ -121,6 +124,10 @@ export default {
       state.contactSortParams = contactSortParams
     },
 
+    SET_PLUGIN_TABLE_SORT_PARAMS (state, pluginSortParams) {
+      state.pluginSortParams = pluginSortParams
+    },
+
     SET_CONTENT_PROTECTION (state, protection) {
       state.contentProtection = protection
     },
@@ -141,6 +148,10 @@ export default {
       state.transactionTableRowCount = count
     },
 
+    SET_UNCONFIRMED_VOTES (state, votes) {
+      state.unconfirmedVotes = votes
+    },
+
     RESET (state) {
       state.avatar = 'pages/new-profile-avatar.svg'
       state.background = null
@@ -154,35 +165,52 @@ export default {
       state.walletLayout = 'grid'
       state.walletSortParams = { field: 'balance', type: 'desc' }
       state.contactSortParams = { field: 'name', type: 'asc' }
+      state.pluginSortParams = { field: 'id', type: 'asc' }
       state.backgroundUpdateLedger = true
       state.broadcastPeers = true
       state.contentProtection = true
       state.ledgerCache = false
       state.transactionTableRowCount = 10
+      state.unconfirmedVotes = []
+
+      i18n.locale = state.language
+    },
+
+    REPLACE (state, value) {
+      state.avatar = value.avatar
+      state.background = value.background
+      state.currency = value.currency
+      state.timeFormat = value.timeFormat
+      state.isMarketChartEnabled = value.isMarketChartEnabled
+      state.language = value.language
+      state.bip39Language = value.bip39Language
+      state.name = value.name
+      state.theme = value.theme
+      state.walletLayout = value.walletLayout
+      state.walletSortParams = value.walletSortParams
+      state.contactSortParams = value.contactSortParams
+      state.pluginSortParams = value.pluginSortParams
+      state.backgroundUpdateLedger = value.backgroundUpdateLedger
+      state.broadcastPeers = value.broadcastPeers
+      state.ledgerCache = value.ledgerCache
+      state.transactionTableRowCount = value.transactionTableRowCount
+      state.unconfirmedVotes = value.unconfirmedVotes
+
+      i18n.locale = state.language
     }
   },
 
   actions: {
-    load ({ rootGetters, dispatch }, profileId) {
+    load ({ commit, rootGetters, dispatch }, profileId) {
       const profile = rootGetters['profile/byId'](profileId)
       if (!profile) return
 
-      dispatch('setAvatar', profile.avatar)
-      dispatch('setBackground', profile.background)
-      dispatch('setCurrency', profile.currency)
-      dispatch('setTimeFormat', profile.timeFormat)
-      dispatch('setIsMarketChartEnabled', profile.isMarketChartEnabled)
-      dispatch('setName', profile.name)
-      dispatch('setLanguage', profile.language)
-      dispatch('setBip39Language', profile.bip39Language)
-      dispatch('setTheme', profile.theme)
-      dispatch('setWalletLayout', profile.walletLayout)
-      dispatch('setWalletSortParams', profile.walletSortParams)
-      dispatch('setContactSortParams', profile.contactSortParams)
-      dispatch('setBackgroundUpdateLedger', profile.backgroundUpdateLedger)
-      dispatch('setBroadcastPeers', profile.broadcastPeers)
-      dispatch('setLedgerCache', profile.ledgerCache)
-      dispatch('setTransactionTableRowCount', profile.transactionTableRowCount)
+      if (!profile.unconfirmedVotes) {
+        profile.unconfirmedVotes = []
+        dispatch('profile/update', profile, { root: true })
+      }
+
+      commit('REPLACE', profile)
 
       return profile
     },
@@ -261,8 +289,16 @@ export default {
       commit('SET_CONTACT_TABLE_SORT_PARAMS', value)
     },
 
+    setPluginSortParams ({ commit }, value) {
+      commit('SET_PLUGIN_TABLE_SORT_PARAMS', value)
+    },
+
     setTransactionTableRowCount ({ commit }, value) {
       commit('SET_TRANSACTION_TABLE_ROW_COUNT', value)
+    },
+
+    setUnconfirmedVotes ({ commit }, value) {
+      commit('SET_UNCONFIRMED_VOTES', value)
     }
   }
 }

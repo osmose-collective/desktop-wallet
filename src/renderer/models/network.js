@@ -12,7 +12,7 @@ export default new BaseModel({
     description: {},
     imagePath: {},
     slip44: {
-      type: 'string'
+      type: ['string', 'number']
     },
     apiVersion: {
       type: 'number'
@@ -48,6 +48,14 @@ export default new BaseModel({
     },
     constants: {
       type: 'object'
+    },
+    vendorField: {
+      type: 'object',
+      properties: {
+        maxLength: {
+          type: 'integer'
+        }
+      }
     },
     knownWallets: {
       type: 'object',

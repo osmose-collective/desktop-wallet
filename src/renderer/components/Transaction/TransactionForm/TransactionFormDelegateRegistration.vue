@@ -4,9 +4,17 @@
     @submit.prevent
   >
     <template v-if="!currentWallet.isDelegate">
-      <div class="mb-5">
-        {{ $t('TRANSACTION.FORM.DELEGATE_REGISTRATION.INSTRUCTIONS', { address: currentWallet.address }) }}
-      </div>
+      <ListDivided :is-floating-label="true">
+        <ListDividedItem :label="$t('TRANSACTION.SENDER')">
+          {{ senderLabel }}
+          <span
+            v-if="senderLabel !== currentWallet.address"
+            class="text-sm text-theme-page-text-light"
+          >
+            {{ currentWallet.address }}
+          </span>
+        </ListDividedItem>
+      </ListDivided>
 
       <InputText
         v-model="$v.form.username.$model"
@@ -18,9 +26,9 @@
       />
 
       <InputFee
-        v-if="session_network.apiVersion === 2"
+        v-if="walletNetwork.apiVersion === 2"
         ref="fee"
-        :currency="session_network.token"
+        :currency="walletNetwork.token"
         :transaction-type="$options.transactionType"
         :show-insufficient-funds="true"
         @input="onFee"
@@ -44,7 +52,7 @@
         ref="passphrase"
         v-model="$v.form.passphrase.$model"
         :address="currentWallet.address"
-        :pub-key-hash="session_network.version"
+        :pub-key-hash="walletNetwork.version"
       />
 
       <PassphraseInput
@@ -52,7 +60,8 @@
         ref="secondPassphrase"
         v-model="$v.form.secondPassphrase.$model"
         :label="$t('TRANSACTION.SECOND_PASSPHRASE')"
-        :pub-key-hash="session_network.version"
+        :pub-key-hash="walletNetwork.version"
+        :public-key="currentWallet.secondPublicKey"
         class="mt-5"
       />
 
@@ -90,10 +99,12 @@
 import { required } from 'vuelidate/lib/validators'
 import { TRANSACTION_TYPES, V1 } from '@config'
 import { InputFee, InputPassword, InputText } from '@/components/Input'
+import { ListDivided, ListDividedItem } from '@/components/ListDivided'
 import { ModalLoader } from '@/components/Modal'
 import { PassphraseInput } from '@/components/Passphrase'
 import TransactionService from '@/services/transaction'
 import WalletService from '@/services/wallet'
+import onSubmit from './mixin-on-submit'
 
 export default {
   name: 'TransactionFormDelegateRegistration',
@@ -104,9 +115,13 @@ export default {
     InputFee,
     InputPassword,
     InputText,
+    ListDivided,
+    ListDividedItem,
     ModalLoader,
     PassphraseInput
   },
+
+  mixins: [onSubmit],
 
   data: () => ({
     form: {
@@ -117,39 +132,26 @@ export default {
     },
     error: null,
     showEncryptLoader: false,
-    showLedgerLoader: false,
-    bip38Worker: null
+    showLedgerLoader: false
   }),
 
   computed: {
     currentWallet () {
       return this.wallet_fromRoute
-    }
-  },
+    },
 
-  beforeDestroy () {
-    this.bip38Worker.send('quit')
+    senderLabel () {
+      return this.wallet_formatAddress(this.currentWallet.address)
+    },
+
+    walletNetwork () {
+      return this.session_network
+    }
   },
 
   mounted () {
-    if (this.bip38Worker) {
-      this.bip38Worker.send('quit')
-    }
-    this.bip38Worker = this.$bgWorker.bip38()
-    this.bip38Worker.on('message', message => {
-      if (message.decodedWif === null) {
-        this.$error(this.$t('ENCRYPTION.FAILED_DECRYPT'))
-        this.showEncryptLoader = false
-      } else if (message.decodedWif) {
-        this.form.passphrase = null
-        this.form.wif = message.decodedWif
-        this.showEncryptLoader = false
-        this.submit()
-      }
-    })
-
     // Set default fees with v1 compatibility
-    if (this.session_network.apiVersion === 1) {
+    if (this.walletNetwork.apiVersion === 1) {
       this.form.fee = V1.fees[this.$options.transactionType] / 1e8
     } else {
       this.form.fee = this.$refs.fee.fee
@@ -159,19 +161,6 @@ export default {
   methods: {
     onFee (fee) {
       this.$set(this.form, 'fee', fee)
-    },
-
-    onSubmit () {
-      if (this.form.walletPassword && this.form.walletPassword.length) {
-        this.showEncryptLoader = true
-        this.bip38Worker.send({
-          bip38key: this.currentWallet.passphrase,
-          password: this.form.walletPassword,
-          wif: this.session_network.wif
-        })
-      } else {
-        this.submit()
-      }
     },
 
     async submit () {
@@ -184,7 +173,8 @@ export default {
         username: this.form.username,
         passphrase: this.form.passphrase,
         fee: parseInt(this.currency_unitToSub(this.form.fee)),
-        wif: this.form.wif
+        wif: this.form.wif,
+        networkWif: this.walletNetwork.wif
       }
       if (this.currentWallet.secondPublicKey) {
         transactionData.secondPassphrase = this.form.secondPassphrase
@@ -225,30 +215,29 @@ export default {
           if (this.$refs.fee) {
             return !this.$refs.fee.$v.$invalid
           }
-          return this.session_network.apiVersion === 1 // Return true if it's v1, since it has a static fee
+          return this.walletNetwork.apiVersion === 1 // Return true if it's v1, since it has a static fee
         }
       },
       username: {
-        required,
         isValid (value) {
           const validation = WalletService.validateUsername(value)
-          if (validation && validation.passes) {
+
+          if (validation.passes) {
             this.error = null
-            return validation.passes
-          }
-
-          if (validation.errors && validation.errors.length) {
-            const { type } = validation.errors[0]
-            if (type === 'string.max') {
-              this.error = this.$t('WALLET_DELEGATES.USERNAME_MAX_LENGTH_ERROR')
-            } else {
-              this.error = this.$t('WALLET_DELEGATES.USERNAME_ERROR')
-            }
           } else {
-            this.error = this.$t('WALLET_DELEGATES.USERNAME_ERROR')
+            switch (validation.errors[0].type) {
+              case 'empty':
+                this.error = this.$t('WALLET_DELEGATES.USERNAME_EMPTY_ERROR')
+                break
+              case 'maxLength':
+                this.error = this.$t('WALLET_DELEGATES.USERNAME_MAX_LENGTH_ERROR')
+                break
+              default:
+                this.error = this.$t('WALLET_DELEGATES.USERNAME_ERROR')
+            }
           }
 
-          return false
+          return validation.passes
         }
       },
       passphrase: {

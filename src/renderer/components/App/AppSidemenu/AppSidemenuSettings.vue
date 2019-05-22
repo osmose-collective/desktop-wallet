@@ -2,7 +2,7 @@
   <div
     v-click-outside="emitClose"
     :class="isHorizontal ? 'AppSidemenuOptionsSettings--horizontal' : 'AppSidemenuOptionsSettings'"
-    class="absolute z-20"
+    class="absolute z-20 theme-dark"
   >
     <MenuOptions
       :is-horizontal="isHorizontal"
@@ -27,18 +27,30 @@
       </MenuOptionsItem>
 
       <MenuOptionsItem
-        :title="$t('APP_SIDEMENU.SETTINGS.DARK_MODE')"
-        @click="toggleSelect('dark-switch')"
+        :title="pluginThemes
+          ? $t('APP_SIDEMENU.SETTINGS.THEME')
+          : $t('APP_SIDEMENU.SETTINGS.DARK_MODE')
+        "
+        @click="toggleSelect(pluginThemes ? 'theme-menu' : 'dark-switch')"
       >
         <div
           slot="controls"
           class="pointer-events-none"
         >
+          <MenuDropdown
+            v-if="pluginThemes"
+            ref="theme-menu"
+            :items="themes"
+            :position="['-40%', '5%']"
+            :value="sessionTheme"
+            @select="setTheme"
+          />
           <ButtonSwitch
+            v-else
             ref="dark-switch"
             :is-active="session_hasDarkTheme"
             class="theme-dark"
-            background-color="#414767"
+            background-color="var(--theme-settings-switch)"
             @change="setTheme"
           />
         </div>
@@ -57,7 +69,7 @@
             ref="protection-switch"
             :is-active="contentProtection"
             class="theme-dark"
-            background-color="#414767"
+            background-color="var(--theme-settings-switch)"
             @change="setProtection"
           />
         </div>
@@ -75,7 +87,7 @@
             ref="ledger-background-switch"
             :is-active="backgroundUpdateLedger"
             class="theme-dark"
-            background-color="#414767"
+            background-color="var(--theme-settings-switch)"
             @change="setBackgroundUpdateLedger"
           />
         </div>
@@ -93,27 +105,8 @@
             ref="broadcast-peers"
             :is-active="sessionBroadcastPeers"
             class="theme-dark"
-            background-color="#414767"
+            background-color="var(--theme-settings-switch)"
             @change="setBroadcastPeers"
-          />
-        </div>
-      </MenuOptionsItem>
-
-      <MenuOptionsItem
-        v-if="isMarketEnabled"
-        :title="$t('APP_SIDEMENU.SETTINGS.IS_MARKET_CHART_ENABLED')"
-        @click="toggleSelect('show-market-chart')"
-      >
-        <div
-          slot="controls"
-          class="pointer-events-none"
-        >
-          <ButtonSwitch
-            ref="show-market-chart"
-            :is-active="sessionIsMarketChartEnabled"
-            class="theme-dark"
-            background-color="#414767"
-            @change="setIsMarketChartEnabled"
           />
         </div>
       </MenuOptionsItem>
@@ -129,6 +122,7 @@
         :title="$t('APP_SIDEMENU.SETTINGS.RESET_DATA.QUESTION')"
         :note="$t('APP_SIDEMENU.SETTINGS.RESET_DATA.NOTE')"
         container-classes="max-w-md"
+        @close="toggleResetDataModal"
         @cancel="toggleResetDataModal"
         @continue="onResetData"
       />
@@ -140,7 +134,7 @@
 import { ModalConfirmation } from '@/components/Modal'
 import { MenuOptions, MenuOptionsItem, MenuDropdown } from '@/components/Menu'
 import { ButtonSwitch } from '@/components/Button'
-import { clone } from 'lodash'
+import { clone, isEmpty, isString } from 'lodash'
 const os = require('os')
 
 export default {
@@ -210,18 +204,6 @@ export default {
         this.$store.dispatch('profile/update', profile)
       }
     },
-    sessionIsMarketChartEnabled: {
-      get () {
-        return this.$store.getters['session/isMarketChartEnabled']
-      },
-      set (isMarketChartEnabled) {
-        this.$store.dispatch('session/setIsMarketChartEnabled', isMarketChartEnabled)
-        this.$store.dispatch('profile/update', {
-          ...this.session_profile,
-          isMarketChartEnabled
-        })
-      }
-    },
     sessionTheme: {
       get () {
         return this.$store.getters['session/theme']
@@ -251,6 +233,14 @@ export default {
         profile.backgroundUpdateLedger = update
         this.$store.dispatch('profile/update', profile)
       }
+    },
+    pluginThemes () {
+      return isEmpty(this.$store.getters['plugin/themes'])
+        ? null
+        : this.$store.getters['plugin/themes']
+    },
+    themes () {
+      return ['light', 'dark', ...Object.keys(this.pluginThemes)]
     }
   },
 
@@ -259,8 +249,8 @@ export default {
       this.sessionCurrency = newCurrency
     },
 
-    setTheme (newTheme) {
-      this.sessionTheme = newTheme ? 'dark' : 'light'
+    setTheme (theme) {
+      this.sessionTheme = isString(theme) ? theme : (theme ? 'dark' : 'light')
     },
 
     setProtection (protection) {
@@ -275,10 +265,6 @@ export default {
       this.sessionBroadcastPeers = broadcast
     },
 
-    setIsMarketChartEnabled (isEnabled) {
-      this.sessionIsMarketChartEnabled = isEnabled
-    },
-
     toggleSelect (name) {
       this.$refs[name].toggle()
     },
@@ -290,11 +276,6 @@ export default {
     async onResetData () {
       await this.$store.dispatch('resetData')
       this.electron_reload()
-    },
-
-    goToNetworkOverview () {
-      this.$emit('close')
-      this.$router.push({ name: 'networks' })
     },
 
     emitClose () {

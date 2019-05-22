@@ -10,6 +10,7 @@
         v-bind="$attrs"
         :type="type"
         @built="onBuilt"
+        @cancel="emitCancel"
       />
     </KeepAlive>
 
@@ -162,17 +163,17 @@ export default {
         if (responseArray.length > 0) {
           for (let i = 0; i < responseArray.length; i++) {
             const response = responseArray[i]
-            const { data } = response.data
 
             if (this.isSuccessfulResponse(response)) {
               this.storeTransaction(this.transaction)
+              const { data } = response.data
 
               if (data && data.accept.length === 0 && data.broadcast.length > 0) {
                 this.$warn(messages.warningBroadcast)
-              } else {
-                this.$success(messages.success)
               }
+
               success = true
+              this.$success(messages.success)
               return
             }
           }
@@ -199,14 +200,14 @@ export default {
         this.$error(messages.error)
       } finally {
         this.showBroadcastingTransactions = false
-        this.emitSent(success)
+        this.emitSent(success, this.transaction)
       }
 
       this.emitClose()
     },
 
-    emitSent (success) {
-      this.$emit('sent', success)
+    emitSent (success, transaction = null) {
+      this.$emit('sent', success, transaction)
     },
 
     emitCancel () {
@@ -233,7 +234,7 @@ export default {
         return response.data.success
       } else {
         const { data, errors } = response.data
-        return data && data.invalid.length === 0 && errors === null
+        return data && data.invalid.length === 0 && !errors
       }
     },
 

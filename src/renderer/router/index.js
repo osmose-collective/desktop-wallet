@@ -3,6 +3,8 @@ import Router from 'vue-router'
 
 Vue.use(Router)
 
+// NOTE: when adding a route here, check the `KeepAliveRoutes` computed property
+// of `App.vue`: only routes that do not depend on params or the profile should be kept alive
 const router = new Router({
   routes: [
     {
@@ -15,11 +17,11 @@ const router = new Router({
       name: 'announcements',
       component: require('@/pages/Announcements').default
     },
-    {
-      path: '/search',
-      name: 'search',
-      component: require('@/pages/Search').default
-    },
+    // {
+    //   path: '/search',
+    //   name: 'search',
+    //   component: require('@/pages/Search').default
+    // },
     {
       path: '/contacts/all',
       name: 'contacts',
@@ -34,6 +36,11 @@ const router = new Router({
       path: '/networks/all',
       name: 'networks',
       component: require('@/pages/NetworkOverview').default
+    },
+    {
+      path: '/plugins',
+      name: 'plugins',
+      component: require('@/pages/Plugins').default
     },
     {
       path: '/profiles/new',

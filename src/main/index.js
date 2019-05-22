@@ -1,6 +1,6 @@
 'use strict'
 
-import { app, BrowserWindow, screen } from 'electron'
+import { app, BrowserWindow, ipcMain, screen } from 'electron'
 import winState from 'electron-window-state'
 import packageJson from '../../package.json'
 
@@ -13,6 +13,13 @@ require('electron-log')
  */
 if (process.env.NODE_ENV !== 'development') {
   global.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\')
+}
+
+// To E2E tests
+if (process.env.TEMP_USER_DATA === 'true') {
+  const tempy = require('tempy')
+  const tempDirectory = tempy.directory()
+  app.setPath('userData', tempDirectory)
 }
 
 let mainWindow = null
@@ -37,6 +44,20 @@ function createWindow () {
     y: windowState.y,
     center: true,
     show: false
+  })
+
+  ipcMain.on('disable-iframe-protection', function (_event, urls) {
+    const filter = { urls }
+    mainWindow.webContents.session.webRequest.onHeadersReceived(filter, (details, done) => {
+      const headers = details.responseHeaders
+
+      const xFrameOrigin = Object.keys(headers).find(header => header.toString().match(/^x-frame-options$/i))
+      if (xFrameOrigin) {
+        delete headers[xFrameOrigin]
+      }
+
+      done({ cancel: false, responseHeaders: headers, statusLine: details.statusLine })
+    })
   })
 
   windowState.manage(mainWindow)

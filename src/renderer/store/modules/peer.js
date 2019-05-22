@@ -1,5 +1,4 @@
-import random from 'lodash/random'
-import shuffle from 'lodash/shuffle'
+import { isEmpty, random, shuffle } from 'lodash'
 import ClientService from '@/services/client'
 import config from '@config'
 import i18n from '@/i18n'
@@ -174,15 +173,17 @@ export default {
         return []
       }
 
-      const highestHeight = peers[0].height
-      for (let i = 1; i < maxRandom; i++) {
-        if (!peers[i]) {
-          break
-        }
-        if (peers[i].height < highestHeight - 50) {
-          maxRandom = i - 1
-        }
-      }
+      // NOTE: Disabled because if a bad peer has a height 50 blocks above the rest it is not returning any peer
+
+      // const highestHeight = peers[0].height
+      // for (let i = 1; i < maxRandom; i++) {
+      //   if (!peers[i]) {
+      //     break
+      //   }
+      //   if (peers[i].height < highestHeight - 50) {
+      //     maxRandom = i - 1
+      //   }
+      // }
 
       return peers.slice(0, Math.min(maxRandom, peers.length))
     },
@@ -202,7 +203,7 @@ export default {
       }
 
       let currentPeer = state.current[networkId]
-      if (!currentPeer) {
+      if (isEmpty(currentPeer)) {
         return false
       }
 
@@ -258,7 +259,7 @@ export default {
           try {
             return PeerModel.deserialize(peer)
           } catch (error) {
-            //
+            this._vm.$logger.error(`Could not deserialize peer: ${error.message}`)
           }
 
           return null
@@ -281,6 +282,9 @@ export default {
       if (peer) {
         await getApiPort(peer)
         this._vm.$client.host = getBaseUrl(peer)
+        this._vm.$client.capabilities = peer.version
+
+        // TODO only when necessary (when / before sending) (if no dynamic)
         await dispatch('transaction/updateStaticFees', null, { root: true })
       }
       commit('SET_CURRENT_PEER', {
@@ -306,10 +310,13 @@ export default {
         'ark.mainnet': 'mainnet',
         'ark.devnet': 'devnet'
       }
-      let peers = await this._vm.$client.fetchPeers(networkLookup[network.id], getters['all']())
+
+      const peers = await this._vm.$client.fetchPeers(networkLookup[network.id], getters['all']())
+
       if (peers.length) {
         for (const peer of peers) {
           peer.height = +peer.height
+
           if (getApiVersion(peer) === 2) {
             if (peer.latency) {
               peer.delay = peer.latency
@@ -317,6 +324,7 @@ export default {
             }
             if (peer.port && !peer.p2pPort) {
               peer.p2pPort = peer.port
+              // TODO why?
               peer.port = null
             }
           }
@@ -377,7 +385,8 @@ export default {
     async connectToBest ({ dispatch, getters }, { refresh = true, skipIfCustom = true }) {
       if (skipIfCustom) {
         const currentPeer = getters['current']()
-        if (currentPeer && currentPeer.isCustom) {
+        if (!isEmpty(currentPeer) && currentPeer.isCustom) {
+          // TODO only when necessary (when / before sending) (if no dynamic)
           await dispatch('transaction/updateStaticFees', null, { root: true })
 
           return null
@@ -417,11 +426,11 @@ export default {
      */
     async updateCurrentPeerStatus ({ dispatch, getters }, currentPeer) {
       let updateCurrentPeer = false
-      if (!currentPeer) {
+      if (isEmpty(currentPeer)) {
         currentPeer = { ...getters['current']() }
         updateCurrentPeer = true
       }
-      if (!currentPeer) {
+      if (isEmpty(currentPeer)) {
         await dispatch('fallbackToSeedPeer')
 
         return
@@ -533,7 +542,7 @@ export default {
         host: baseUrl,
         port: +port,
         height: peerStatus.height,
-        version: `${version}.0.0`,
+        version: `${version}.0.0`, // TODO why does it ignore the exact version?
         status: 'OK',
         delay: 0,
         isHttps: schemeUrl && schemeUrl[1] === 'https://'

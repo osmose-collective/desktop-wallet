@@ -52,6 +52,36 @@
             icon="whitepaper"
             @click="redirect($event)"
           />
+
+          <!-- Plugins -->
+          <MenuNavigationItem
+            id="plugins"
+            :title="$t('APP_SIDEMENU.PLUGINS')"
+            :is-horizontal="isHorizontal"
+            :can-activate="false"
+            class="AppSidemenu__item"
+            icon="plugins"
+            @click="showPlugins"
+          />
+
+          <!-- Plugin pages -->
+          <MenuNavigationItem
+            v-if="hasPluginMenuItems"
+            id="plugin-pages"
+            :title="$t('APP_SIDEMENU.PLUGINS_PAGES')"
+            :is-horizontal="isHorizontal"
+            :can-activate="false"
+            class="AppSidemenu__item"
+            icon="more"
+            @click="toggleShowPluginMenu"
+          />
+
+          <AppSidemenuPlugins
+            v-if="hasPluginMenuItems && isPluginMenuVisible"
+            :outside-click="true"
+            :is-horizontal="isHorizontal"
+            @close="closeShowPlugins"
+          />
         </div>
 
         <div class="flexify">
@@ -106,19 +136,17 @@
             class="AppSidemenu__avatar__container relative cursor-pointer flex items-center justify-center hover:opacity-50"
           >
             <RouterLink
-              :class="{
-                'h-12 w-12': session_profile.avatar && isHorizontal,
-                'h-18 w-18': session_profile.avatar && !isHorizontal
-              }"
-              :style="session_profile.avatar ? `backgroundImage: url('${assets_loadImage(session_profile.avatar)}')` : ''"
-              :title="$t('APP_SIDEMENU.CURRENT_PROFILE', { profileName: session_profile.name })"
               :to="{ name: 'profiles' }"
-              class="AppSidemenu__avatar flex background-image bg-center bg-no-repeat border-none"
+              class="AppSidemenu__avatar"
             >
               <ProfileAvatar
                 :profile="session_profile"
-                letter-size="xl"
+                :class="{
+                  'h-12 w-12': hasStandardAvatar && isHorizontal,
+                  'h-18 w-18': hasStandardAvatar && !isHorizontal
+                }"
                 :title="$t('APP_SIDEMENU.CURRENT_PROFILE', { profileName: session_profile.name })"
+                letter-size="xl"
               >
                 <SvgIcon
                   class="AppSidemenu__avatar__dots text-grey-dark"
@@ -131,16 +159,26 @@
         </div>
       </div>
     </div>
+
+    <AppSidemenuPluginConfirmation
+      v-if="isPluginConfirmationVisible"
+      @enable="enablePlugins"
+      @ignore="closePluginConfirmation"
+      @close="closePluginConfirmation"
+    />
   </MenuNavigation>
 </template>
 
 <script>
 import semver from 'semver'
+import { isUndefined } from 'lodash'
 import { mapGetters } from 'vuex'
 import releaseService from '@/services/release'
+import AppSidemenuPlugins from './AppSidemenuPlugins'
 import AppSidemenuSettings from './AppSidemenuSettings'
 import AppSidemenuNetworkStatus from './AppSidemenuNetworkStatus'
 import AppSidemenuImportantNotification from './AppSidemenuImportantNotification'
+import AppSidemenuPluginConfirmation from './AppSidemenuPluginConfirmation'
 import { MenuNavigation, MenuNavigationItem } from '@/components/Menu'
 import { ProfileAvatar } from '@/components/Profile'
 import SvgIcon from '@/components/SvgIcon'
@@ -149,9 +187,11 @@ export default {
   name: 'AppSidemenu',
 
   components: {
+    AppSidemenuPlugins,
     AppSidemenuSettings,
     AppSidemenuNetworkStatus,
     AppSidemenuImportantNotification,
+    AppSidemenuPluginConfirmation,
     MenuNavigation,
     MenuNavigationItem,
     ProfileAvatar,
@@ -169,6 +209,8 @@ export default {
   data: vm => ({
     isNetworkStatusVisible: false,
     isImportantNotificationVisible: true,
+    isPluginMenuVisible: false,
+    isPluginConfirmationVisible: false,
     isSettingsVisible: false,
     activeItem: vm.$route.name
   }),
@@ -183,6 +225,19 @@ export default {
     },
     showUnread () {
       return this.unreadAnnouncements.length > 0
+    },
+    hasPluginMenuItems () {
+      return this.$store.getters['plugin/menuItems'].length
+    },
+    hasStandardAvatar () {
+      return this.session_profile.avatar && typeof this.session_profile.avatar === 'string'
+    },
+    pluginAvatar () {
+      if (this.session_profile.avatar && this.session_profile.avatar.pluginId) {
+        return this.$store.getters['plugin/avatar'](this.session_profile.avatar)
+      }
+
+      return null
     }
   },
 
@@ -201,6 +256,10 @@ export default {
       this.isImportantNotificationVisible = false
     },
 
+    toggleShowPluginMenu () {
+      this.isPluginMenuVisible = !this.isPluginMenuVisible
+    },
+
     toggleShowSettings () {
       this.isSettingsVisible = !this.isSettingsVisible
     },
@@ -209,12 +268,38 @@ export default {
       this.isNetworkStatusVisible = !this.isNetworkStatusVisible
     },
 
+    closeShowPlugins () {
+      this.isPluginMenuVisible = false
+    },
+
     closeShowSettings () {
       this.isSettingsVisible = false
     },
 
     closeShowNetworkStatus () {
       this.isNetworkStatusVisible = false
+    },
+
+    closePluginConfirmation () {
+      this.isPluginConfirmationVisible = false
+    },
+    showPlugins ($event) {
+      const showConfirmation = isUndefined(this.session_profile.showPluginConfirmation) ||
+        this.session_profile.showPluginConfirmation
+
+      if (showConfirmation) {
+        this.isPluginConfirmationVisible = true
+      } else {
+        this.redirect($event)
+      }
+    },
+    async enablePlugins () {
+      this.isPluginConfirmationVisible = false
+      await this.$store.dispatch('profile/update', {
+        ...this.session_profile,
+        showPluginConfirmation: false
+      })
+      this.redirect('plugins')
     }
   }
 }
@@ -253,5 +338,9 @@ export default {
   bottom: -0.7rem;
   width: 1.8rem;
   height: 1.8rem;
+}
+
+.AppSidemenu__avatar__container .ProfileAvatar__image__component {
+  @apply .h-18 .w-18;
 }
 </style>

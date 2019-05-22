@@ -4,9 +4,19 @@
     v-on="$listeners"
   >
     <div
-      v-if="profile.avatar"
+      v-if="pluginAvatar"
+      class="ProfileAvatar__image border-none"
+    >
+      <Component
+        :is="pluginAvatar"
+        class="ProfileAvatar__image__component"
+      />
+    </div>
+
+    <div
+      v-else-if="hasStandardAvatar"
       :style="profile.avatar ? `backgroundImage: url('${assets_loadImage(profile.avatar)}')` : ''"
-      class="ProfileAvatar__image background-image bg-center bg-no-repeat border-none"
+      class="ProfileAvatar__image w-full h-full background-image bg-center bg-no-repeat border-none"
     >
       <slot />
     </div>
@@ -16,10 +26,11 @@
       :value="profile.name"
       :has-custom-style="true"
       :size="letterSize"
-      class="ProfileAvatar__letter bg-theme-feature-item-selected text-theme-feature-item-selected-text"
-    />
-
-    <slot />
+      tag="div"
+      class="ProfileAvatar__letter bg-theme-feature-item-selected text-theme-feature-item-selected-text select-none"
+    >
+      <slot />
+    </ButtonLetter>
   </div>
 </template>
 
@@ -42,6 +53,26 @@ export default {
       type: String,
       required: true
     }
+  },
+
+  computed: {
+    hasStandardAvatar () {
+      return this.profile.avatar && typeof this.profile.avatar === 'string'
+    },
+
+    pluginAvatar () {
+      if (this.profile.avatar && this.profile.avatar.pluginId) {
+        return this.$store.getters['plugin/avatar'](this.profile)
+      }
+
+      return null
+    }
   }
 }
 </script>
+
+<style scoped>
+.ProfileAvatar__image__component {
+  @apply .w-full .h-full;
+}
+</style>

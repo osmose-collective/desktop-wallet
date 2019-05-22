@@ -52,10 +52,8 @@
               </div>
 
               <div class="flex mb-5">
-                <InputSelect
+                <InputLanguage
                   v-model="language"
-                  :items="languages"
-                  :label="$t('COMMON.LANGUAGE')"
                   name="language"
                   class="flex-1 mr-5"
                 />
@@ -65,6 +63,16 @@
                   :items="bip39Languages"
                   :label="$t('COMMON.BIP39_LANGUAGE')"
                   name="bip39-language"
+                  class="flex-1"
+                />
+              </div>
+
+              <div class="flex mb-5 w-1/2 ProfileNew__time-format-container">
+                <InputSelect
+                  v-model="timeFormat"
+                  :items="timeFormats"
+                  :label="$t('COMMON.TIME_FORMAT')"
+                  name="time-format"
                   class="flex-1"
                 />
               </div>
@@ -80,11 +88,7 @@
                 </div>
                 <SelectionAvatar
                   :selected="schema.avatar"
-                  :extra-items="[{
-                    title: $t('PAGES.PROFILE_NEW.STEP1.NO_AVATAR'),
-                    textContent: schema.name,
-                    onlyLetter: true
-                  }]"
+                  :letter-value="schema.name"
                   @select="selectAvatar"
                 />
               </div>
@@ -137,13 +141,30 @@
               <div class="flex items-center justify-between mb-5 mt-2">
                 <div>
                   <h5 class="mb-2">
+                    {{ $t('COMMON.IS_MARKET_CHART_ENABLED') }}
+                  </h5>
+                  <p class="text-theme-page-text-light">
+                    {{ $t('PAGES.PROFILE_NEW.STEP3.MARKET_CHART') }}
+                  </p>
+                </div>
+                <ButtonSwitch
+                  :is-active="isMarketChartEnabled"
+                  @change="selectIsMarketChartEnabled"
+                />
+              </div>
+
+              <div class="flex items-center justify-between mb-5 mt-2">
+                <div>
+                  <h5 class="mb-2">
                     {{ $t('COMMON.THEME') }}
                   </h5>
                   <p class="text-theme-page-text-light">
                     {{ $t('PAGES.PROFILE_NEW.STEP3.THEME') }}
                   </p>
                 </div>
-                <SelectionTheme v-model="theme" />
+                <SelectionTheme
+                  v-model="theme"
+                />
               </div>
 
               <div class="flex items-center justify-between">
@@ -169,24 +190,27 @@
 </template>
 
 <script>
-import { BIP39, I18N, NETWORKS } from '@config'
+import { BIP39, NETWORKS } from '@config'
 import Profile from '@/models/profile'
+import { ButtonSwitch } from '@/components/Button'
 import { MenuStep, MenuStepItem } from '@/components/Menu'
-import { InputSelect, InputText } from '@/components/Input'
+import { InputLanguage, InputSelect, InputText } from '@/components/Input'
 import { SelectionAvatar, SelectionBackground, SelectionNetwork, SelectionTheme } from '@/components/Selection'
 
 export default {
   name: 'ProfileNew',
 
   components: {
+    ButtonSwitch,
+    InputLanguage,
+    InputSelect,
+    InputText,
+    MenuStep,
+    MenuStepItem,
     SelectionAvatar,
     SelectionBackground,
     SelectionNetwork,
-    SelectionTheme,
-    MenuStep,
-    MenuStepItem,
-    InputSelect,
-    InputText
+    SelectionTheme
   },
 
   schema: Profile.schema,
@@ -215,7 +239,7 @@ export default {
     },
     bip39Language: {
       get () {
-        return this.$store.getters['session/bip39Language'] || 'english'
+        return this.$store.getters['session/bip39Language'] || BIP39.defaultLanguage
       },
       set (bip39language) {
         this.selectBip39Language(bip39language)
@@ -229,6 +253,14 @@ export default {
         this.selectCurrency(currency)
       }
     },
+    isMarketChartEnabled: {
+      get () {
+        return this.$store.getters['session/isMarketChartEnabled']
+      },
+      set (isMarketChartEnabled) {
+        this.selectIsMarketChartEnabled(isMarketChartEnabled)
+      }
+    },
     theme: {
       get () {
         return this.$store.getters['session/theme']
@@ -237,19 +269,27 @@ export default {
         this.selectTheme(theme)
       }
     },
+    timeFormat: {
+      get () {
+        return this.$store.getters['session/timeFormat'] || 'Default'
+      },
+      set (timeFormat) {
+        this.selectTimeFormat(timeFormat)
+      }
+    },
     currencies () {
       return this.$store.getters['market/currencies']
-    },
-    languages () {
-      return I18N.enabledLocales.reduce((all, locale) => {
-        all[locale] = this.$t(`LANGUAGES.${locale}`)
-        return all
-      }, {})
     },
     bip39Languages () {
       return BIP39.languages.reduce((all, language) => {
         all[language] = this.$t(`BIP39_LANGUAGES.${language}`)
 
+        return all
+      }, {})
+    },
+    timeFormats () {
+      return ['Default', '12h', '24h'].reduce((all, format) => {
+        all[format] = this.$t(`TIME_FORMAT.${format.toUpperCase()}`)
         return all
       }, {})
     },
@@ -280,14 +320,26 @@ export default {
     }
   },
 
-  // Reuse the settings of the current profile
-  // Or get defaults
+  /**
+   * Reuse the settings of the current profile every time the page is created
+   */
   created () {
-    this.schema.background = this.background
-    this.schema.language = this.language
-    this.schema.currency = this.currency
-    this.schema.theme = this.theme
     this.selectNetwork(this.defaultNetworks.find(network => network.id === 'ark.mainnet'))
+    this.schema.background = this.background
+    this.schema.bip39Language = this.bip39Language
+    this.schema.currency = this.currency
+    this.schema.isMarketChartEnabled = this.isMarketChartEnabled
+    this.schema.language = this.language
+    this.schema.timeFormat = this.timeFormat
+
+    // In case we came from a profile using a plugin theme, revert back to default
+    const defaultThemes = ['light', 'dark']
+    this.schema.theme = defaultThemes.includes(this.theme)
+      ? this.theme
+      : defaultThemes[0]
+    if (this.schema.theme !== this.$store.getters['session/theme']) {
+      this.$store.dispatch('session/setTheme', this.schema.theme)
+    }
   },
 
   destroyed () {
@@ -313,7 +365,18 @@ export default {
     },
 
     selectAvatar (avatar) {
-      this.schema.avatar = avatar
+      if (typeof avatar === 'string') {
+        this.schema.avatar = avatar
+      } else if (avatar.onlyLetter) {
+        this.schema.avatar = null
+      } else if (avatar.name) {
+        this.schema.avatar = {
+          avatarName: avatar.name,
+          pluginId: avatar.pluginId
+        }
+      } else {
+        throw new Error(`Invalid value for avatar: ${avatar}`)
+      }
     },
 
     async selectBackground (background) {
@@ -346,9 +409,19 @@ export default {
       toggle()
     },
 
+    async selectIsMarketChartEnabled (isMarketChartEnabled) {
+      this.schema.isMarketChartEnabled = isMarketChartEnabled
+      await this.$store.dispatch('session/setIsMarketChartEnabled', isMarketChartEnabled)
+    },
+
     async selectTheme (theme) {
       this.schema.theme = theme
       await this.$store.dispatch('session/setTheme', theme)
+    },
+
+    async selectTimeFormat (timeFormat) {
+      this.schema.timeFormat = timeFormat
+      await this.$store.dispatch('session/setTimeFormat', timeFormat)
     }
   },
 
@@ -365,3 +438,10 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.ProfileNew__time-format-container {
+  /* To produce the exact same width  (.pr-5 class / 2) */
+  padding-right: 0.625rem
+}
+</style>

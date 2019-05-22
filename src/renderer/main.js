@@ -16,9 +16,12 @@ import directives from './directives'
 
 import alertEvents from '@/plugins/alert-events'
 import apiClient from '@/plugins/api-client'
-import backgroundWorker from '@/plugins/background-worker'
 import synchronizer from '@/plugins/synchronizer'
 import eventBus from '@/plugins/event-bus'
+import pluginManager from '@/plugins/plugin-manager'
+
+// Must be first to contain an empty Vue instance
+Vue.use(pluginManager)
 
 Vue.config.productionTip = false
 Vue.logger = Vue.prototype.$logger = logger
@@ -35,7 +38,6 @@ Vue.use(VTooltip, {
 })
 Vue.use(alertEvents)
 Vue.use(apiClient)
-Vue.use(backgroundWorker)
 Vue.use(synchronizer)
 Vue.use(PortalVue)
 
