@@ -559,7 +559,7 @@ export default {
   opacity: 1;
 }
 .WalletAll__grid__wallet__name {
-  color: #037cff;
+  color: white;
 }
 .WalletAll__grid__wallet .identicon {
   opacity: 0.5;

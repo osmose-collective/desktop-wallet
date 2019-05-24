@@ -296,22 +296,21 @@ export default {
   opacity: 0.25;
 }
 .ContactAll__grid__contact__name {
-  color: #037cff;
+  color: #c016b6;
 }
 .ContactAll__CreateButton {
-  transition: all .1s ease-in;
   @apply .flex .items-center .font-semibold .bg-theme-button .rounded .cursor-pointer .text-theme-button-text .ml-12;
 }
 .ContactAll__CreateButton:hover {
-  @apply .bg-blue .text-white;
+  background-color: white;
+  color: #a10f99;
 }
 .ContactAll__CreateButton__icon {
-  transition: all .1s ease-in;
   @apply .flex .items-center .justify-center .h-10 .w-10 .rounded-l .bg-theme-button-inner-box;
 }
 .ContactAll__CreateButton:hover .ContactAll__CreateButton__icon {
-  background-color: #0169f4;
-  @apply .text-white;
+  background-color: white;
+  color: #a10f99;
 }
 @screen lg {
   .ContactAll__grid__contact__wrapper {

@@ -153,7 +153,6 @@
           class="WalletSidebar__wallet"
         >
           <div
-            slot-scope="{ isActive }"
             :class="{ 'flex flex-row': isExpanded }"
             class="WalletSidebar__wallet__wrapper transition items-center w-full mx-6 py-6 truncate"
           >
@@ -164,8 +163,6 @@
             />
             <div
               :class="{
-                'text-theme-page-text': isActive,
-                'text-theme-page-text-light': !isActive,
                 'pt-2': !isExpanded,
                 'pl-2': isExpanded
               }"
@@ -444,6 +441,7 @@ export default {
 <style lang="postcss" scoped>
 .WalletSidebar {
   transition: width 0.1s ease-out;
+  border-color: black;
   @apply .overflow-y-auto
 }
 .WalletSidebar__menu {

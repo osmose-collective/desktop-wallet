@@ -49,6 +49,7 @@ let colors = {
   'theme-page-instructions-text': 'var(--theme-page-instructions-text)',
   'theme-page-instructions-background': 'var(--theme-page-instructions-background)',
   'theme-modal': 'var(--theme-modal)',
+  'theme-modal-text': 'var(--theme-modal-text)',
 
   'theme-announcements-gradient-1': 'var(--theme-announcements-gradient-1)',
   'theme-announcements-gradient-2': 'var(--theme-announcements-gradient-2)',
@@ -164,7 +165,7 @@ let colors = {
   'red-darker': '#621b18',
   'red-dark': '#cc1f1a',
   'red': '#e51317', // ARK logo
-  'red-light': '#F03643', // Sidemenu hover and selected border
+  'red-light': '#a10f99', // Sidemenu hover and selected border
   'red-lighter': '#f9acaa',
   'red-lightest': '#fef4f5', // Sidemenu hover background
 
@@ -203,7 +204,7 @@ let colors = {
   'blue-darkest': '#202126', // UPDATED
   'blue-darker': '#282a38', // UPDATED
   'blue-dark': '#2779bd',
-  'blue': '#037CFF', // UPDATED
+  'blue': 'white', // UPDATED
   'blue-light': '#6f77a4', // UPDATED
   'blue-lighter': '#C0CDDF', // Sidemenu icons
   'blue-lightest': '#edf4f5', // Background
