@@ -23,10 +23,11 @@ exports.VENDOR_FIELD = {
 }
 
 exports.I18N = {
-  defaultLocale: 'en-US',
+  defaultLocale: 'fr-FR',
   enabledLocales: [
     'en-US',
-    'it-IT'
+    'it-IT',
+    'fr-FR'
   ]
 }
 
