@@ -2,7 +2,7 @@
   <div
     v-click-outside="emitClose"
     :class="isHorizontal ? 'AppSidemenuOptionsSettings--horizontal' : 'AppSidemenuOptionsSettings'"
-    class="absolute z-20 theme-dark"
+    class="absolute z-20"
   >
     <MenuOptions
       :is-horizontal="isHorizontal"
@@ -22,36 +22,6 @@
             :position="['-40%', '5%']"
             :value="sessionCurrency"
             @select="setCurrency"
-          />
-        </div>
-      </MenuOptionsItem>
-
-      <MenuOptionsItem
-        :title="pluginThemes
-          ? $t('APP_SIDEMENU.SETTINGS.THEME')
-          : $t('APP_SIDEMENU.SETTINGS.DARK_MODE')
-        "
-        @click="toggleSelect(pluginThemes ? 'theme-menu' : 'dark-switch')"
-      >
-        <div
-          slot="controls"
-          class="pointer-events-none"
-        >
-          <MenuDropdown
-            v-if="pluginThemes"
-            ref="theme-menu"
-            :items="themes"
-            :position="['-40%', '5%']"
-            :value="sessionTheme"
-            @select="setTheme"
-          />
-          <ButtonSwitch
-            v-else
-            ref="dark-switch"
-            :is-active="session_hasDarkTheme"
-            class="theme-dark"
-            background-color="var(--theme-settings-switch)"
-            @change="setTheme"
           />
         </div>
       </MenuOptionsItem>

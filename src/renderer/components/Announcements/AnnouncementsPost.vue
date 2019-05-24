@@ -39,7 +39,7 @@
     <div class="pr-12">
       <h2
         :class="isRead ? 'text-theme-page-text-light' : 'text-theme-page-text'"
-        class="AnnouncementsPost__title text-2xl mt-4 md:mt-0"
+        class="AnnouncementsPost__title text-xl mt-4 md:mt-0"
       >
         {{ title }}
       </h2>

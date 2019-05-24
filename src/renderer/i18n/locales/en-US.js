@@ -218,7 +218,7 @@ export default {
   },
 
   APP_FOOTER: {
-    TEXT: 'Made with ♥ by Ark'
+    TEXT: 'www.osmosecollective.com'
   },
 
   APP_SIDEMENU: {

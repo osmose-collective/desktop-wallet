@@ -1,0 +1,62 @@
+{
+  "id": "osmose.mainnet",
+  "name": "OSMOSE Mainnet",
+  "title": "OSMOSE Mainnet",
+  "server": "http://mainnet.osmose.world:4103",
+  "description": "Osmose mainnet.",
+  "imagePath": "networks/ark.png",
+  "apiVersion": 2,
+  "slip44": "1",
+  "market": {
+    "enabled": false,
+    "ticker": null
+  },
+  "feeStatistics": [
+    {
+      "type": 0,
+      "fees": {
+        "avgFee": 10000000,
+        "maxFee": 10000000,
+        "minFee": 10000000
+      }
+    },
+    {
+      "type": 1,
+      "fees": {
+        "avgFee": 500000000,
+        "maxFee": 500000000,
+        "minFee": 500000000
+      }
+    },
+    {
+      "type": 2,
+      "fees": {
+        "avgFee": 2500000000,
+        "maxFee": 2500000000,
+        "minFee": 2500000000
+      }
+    },
+    {
+      "type": 3,
+      "fees": {
+        "avgFee": 100000000,
+        "maxFee": 100000000,
+        "minFee": 100000000
+      }
+    }
+  ],
+  "constants": {
+    "activeDelegates": 42,
+    "epoch": "2019-05-15T12:16:01.019Z"
+  },
+  "nethash": "70eaacbc5c72ce1346b8fadc0244932c87fcaab960063e05860c5a46f331b1d6",
+  "explorer": "http://mainnet.osmose.world",
+  "token": "OSMOSE",
+  "subunit": "osmtoshi",
+  "symbol": "OSM",
+  "fractionDigits": 8,
+  "version": 115,
+  "wif": 129,
+  "knownWallets": {
+  }
+}

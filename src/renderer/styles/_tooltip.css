@@ -5,7 +5,7 @@
 
 .tooltip .tooltip-inner {
   background: var(--theme-page-text);
-  color: var(--theme-page);
+  color: #000;
   border-radius: 6px;
   padding: 12px;
 }

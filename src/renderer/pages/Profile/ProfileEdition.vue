@@ -199,69 +199,6 @@
               </button>
             </footer>
           </MenuTabItem>
-
-          <MenuTabItem
-            :label="$t('PAGES.PROFILE_EDITION.TAB_DESIGN.TITLE')"
-            tab="design"
-            class="p-5"
-          >
-            <ListDivided>
-              <ListDividedItem
-                :label="$t('COMMON.IS_MARKET_CHART_ENABLED')"
-                :item-label-class="!isMarketEnabled ? 'opacity-50' : ''"
-                :item-value-class="!isMarketEnabled ? 'opacity-50 cursor-not-allowed' : ''"
-                class="ProfileEdition__market-chart"
-              >
-                <ButtonSwitch
-                  :is-disabled="!isMarketEnabled"
-                  :is-active="isMarketChartEnabled"
-                  @change="selectIsMarketChartEnabled"
-                />
-              </ListDividedItem>
-
-              <ListDividedItem
-                :label="$t('COMMON.THEME')"
-                class="ProfileEdition__theme"
-              >
-                <MenuDropdown
-                  v-if="pluginThemes"
-                  :class="{
-                    'ProfileEdition__field--modified': modified.theme && modified.theme !== profile.theme
-                  }"
-                  :items="themes"
-                  :value="theme"
-                  :position="['-50%', '0%']"
-                  @select="selectTheme"
-                />
-                <SelectionTheme
-                  v-else
-                  :value="theme"
-                  @input="selectTheme"
-                />
-              </ListDividedItem>
-
-              <ListDividedItem
-                :label="$t('COMMON.BACKGROUND')"
-                class="ProfileEdition__background"
-              >
-                <SelectionBackground
-                  :max-visible-items="5"
-                  :selected="background"
-                  @select="selectBackground"
-                />
-              </ListDividedItem>
-            </ListDivided>
-
-            <footer class="ProfileEdition__footer pb-10">
-              <button
-                :disabled="!isModified || isNameEditable"
-                class="blue-button"
-                @click="save"
-              >
-                {{ $t('COMMON.SAVE') }}
-              </button>
-            </footer>
-          </MenuTabItem>
         </MenuTab>
       </div>
     </main>
@@ -279,12 +216,11 @@
 <script>
 import { isEmpty } from 'lodash'
 import { BIP39, I18N } from '@config'
-import { ButtonSwitch } from '@/components/Button'
 import { InputText } from '@/components/Input'
 import { ListDivided, ListDividedItem } from '@/components/ListDivided'
 import { MenuDropdown, MenuDropdownHandler, MenuTab, MenuTabItem } from '@/components/Menu'
 import { ProfileLeavingConfirmation } from '@/components/Profile'
-import { SelectionAvatar, SelectionBackground, SelectionTheme } from '@/components/Selection'
+import { SelectionAvatar } from '@/components/Selection'
 import SvgIcon from '@/components/SvgIcon'
 import Profile from '@/models/profile'
 
@@ -296,7 +232,6 @@ export default {
   name: 'ProfileEdition',
 
   components: {
-    ButtonSwitch,
     InputText,
     ListDivided,
     ListDividedItem,
@@ -306,8 +241,6 @@ export default {
     MenuDropdownHandler,
     ProfileLeavingConfirmation,
     SelectionAvatar,
-    SelectionBackground,
-    SelectionTheme,
     SvgIcon
   },
 

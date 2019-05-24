@@ -63,9 +63,3 @@ export default {
   }
 }
 </script>
-
-<style>
-.WalletHeading {
-  background-image: -webkit-linear-gradient(30deg, var(--theme-transaction-detail-gradient1) 130px, var(--theme-transaction-detail-gradient2) 130px);
-}
-</style>
