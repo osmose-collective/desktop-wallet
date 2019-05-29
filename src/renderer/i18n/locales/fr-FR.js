@@ -58,7 +58,7 @@ export default {
       FINANCE: 'La chose la plus importante à savoir est que les crypto-monnaies réinventent les habitudes liés à l\'utilisation des services bancaires.',
       BANKS: 'Dans la finance traditionnelle, vous donnez le contrôle total de votre compte à une banque. En ayant ce contrôle, elle peut agir en votre nom, re-créditer votre compte, ou agir sur vos transactions.',
       CRYPTO: 'Les crypto-monnaies reprennent ce pouvoir, et vous le réattribuent. En utilisant une simple passphrase, vous reprenez le contrôle de votre argent.',
-      RESPONSIBILITY: 'Cependant, d\'après les paroles de l\'oncle Ben Parker, un grand pouvoir implique de grande responsabilités.'
+      RESPONSIBILITY: 'Cependant, d\'après les paroles de l\'oncle Ben Parker, un grand pouvoir implique de grandes responsabilités.'
     },
     DUTY: {
       TITLE: 'Votre devoir',
@@ -126,7 +126,7 @@ export default {
     NONE: 'Aucun',
     NO_CONNECT: 'N\'a pas pu se connecter',
     PEER: 'Peer',
-    STATUS_CHECK_FAILED: 'Vérification du statut échouée',
+    STATUS_CHECK_FAILED: 'Vérification du Statut échouée',
     WRONG_NETWORK: 'Erreur du réseau'
   },
 
