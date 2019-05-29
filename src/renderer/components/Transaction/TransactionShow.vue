@@ -240,6 +240,7 @@ export default {
       return this.transaction.confirmations >= (this.numberOfActiveDelegates || 51)
     },
     numberOfActiveDelegates () {
+      console.log()
       return at(this, 'session_network.constants.activeDelegates') || 51
     },
     votePublicKey () {
