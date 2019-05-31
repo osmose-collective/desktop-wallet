@@ -51,19 +51,11 @@
                 />
               </div>
 
-              <div class="flex mb-5">
+              <div class="flex mb-5 w-1/2">
                 <InputLanguage
                   v-model="language"
                   name="language"
                   class="flex-1 mr-5"
-                />
-
-                <InputSelect
-                  v-model="bip39Language"
-                  :items="bip39Languages"
-                  :label="$t('COMMON.BIP39_LANGUAGE')"
-                  name="bip39-language"
-                  class="flex-1"
                 />
               </div>
 
@@ -152,35 +144,6 @@
                   @change="selectIsMarketChartEnabled"
                 />
               </div>
-
-              <div class="flex items-center justify-between mb-5 mt-2">
-                <div>
-                  <h5 class="mb-2">
-                    {{ $t('COMMON.THEME') }}
-                  </h5>
-                  <p class="text-theme-page-text-light">
-                    {{ $t('PAGES.PROFILE_NEW.STEP3.THEME') }}
-                  </p>
-                </div>
-                <SelectionTheme
-                  v-model="theme"
-                />
-              </div>
-
-              <div class="flex items-center justify-between">
-                <div>
-                  <h5 class="mb-2">
-                    {{ $t('COMMON.BACKGROUND') }}
-                  </h5>
-                  <p class="text-theme-page-text-light">
-                    {{ $t('PAGES.PROFILE_NEW.STEP3.BACKGROUND') }}
-                  </p>
-                </div>
-                <SelectionBackground
-                  :selected="background"
-                  @select="selectBackground"
-                />
-              </div>
             </div>
           </MenuStepItem>
         </MenuStep>
@@ -195,7 +158,7 @@ import Profile from '@/models/profile'
 import { ButtonSwitch } from '@/components/Button'
 import { MenuStep, MenuStepItem } from '@/components/Menu'
 import { InputLanguage, InputSelect, InputText } from '@/components/Input'
-import { SelectionAvatar, SelectionBackground, SelectionNetwork, SelectionTheme } from '@/components/Selection'
+import { SelectionAvatar, SelectionNetwork } from '@/components/Selection'
 
 export default {
   name: 'ProfileNew',
@@ -208,9 +171,7 @@ export default {
     MenuStep,
     MenuStepItem,
     SelectionAvatar,
-    SelectionBackground,
-    SelectionNetwork,
-    SelectionTheme
+    SelectionNetwork
   },
 
   schema: Profile.schema,

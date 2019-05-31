@@ -123,18 +123,6 @@
                 </MenuDropdown>
               </ListDividedItem>
 
-              <ListDividedItem :label="$t('COMMON.BIP39_LANGUAGE')">
-                <MenuDropdown
-                  :class="{
-                    'ProfileEdition__field--modified': modified.bip39Language && modified.bip39Language !== profile.bip39Language
-                  }"
-                  :items="bip39Languages"
-                  :value="bip39Language"
-                  :position="['-50%', '0%']"
-                  @select="selectBip39Language"
-                />
-              </ListDividedItem>
-
               <ListDividedItem :label="$t('COMMON.CURRENCY')">
                 <MenuDropdown
                   :class="{
