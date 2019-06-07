@@ -1,24 +1,24 @@
 {
   "private": true,
-  "name": "ark-desktop-wallet",
-  "version": "2.4.0",
+  "name": "osmose-desktop-wallet",
+  "version": "1.0.0",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ArkEcosystem/desktop-wallet.git"
+    "url": "git+https://github.com/osmose-collective/desktop-wallet.git"
   },
-  "author": "ArkEcosystem <info@ark.io>",
+  "author": "OSMOSE Collective <info@osmose.world>",
   "contributors": [
     "Alex Barnsley <alex@ark.io>",
     "ItsANameToo <itsanametoo@protonmail.com>",
     "Juan A. Martín <juan@ark.io>",
     "Lúcio Rubens <lucio@ark.io>"
   ],
-  "description": "Ark Ecosystem Desktop Wallet",
+  "description": "OSMOSE Collective Desktop Wallet",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ArkEcosystem/desktop-wallet/issues"
+    "url": "https://github.com/ArkEcosystem/osmose-collective/issues"
   },
-  "homepage": "https://github.com/ArkEcosystem/desktop-wallet#readme",
+  "homepage": "https://github.com/ArkEcosystem/osmose-collective#readme",
   "main": "./dist/electron/main.js",
   "scripts": {
     "build": "node .electron-vue/build.js && electron-builder",
@@ -166,8 +166,8 @@
     "webpack-hot-middleware": "^2.24.3"
   },
   "build": {
-    "productName": "Ark Desktop Wallet",
-    "appId": "io.ark.desktop-wallet",
+    "productName": "OSMOSE Desktop Wallet",
+    "appId": "io.osmose.desktop-wallet",
     "compression": "maximum",
     "artifactName": "${name}-${os}-${arch}-${version}.${ext}",
     "protocols": {
@@ -193,7 +193,7 @@
     },
     "linux": {
       "category": "Utility",
-      "executableName": "ark-desktop-wallet",
+      "executableName": "osmose-desktop-wallet",
       "icon": "build/icons",
       "target": [
         "AppImage",

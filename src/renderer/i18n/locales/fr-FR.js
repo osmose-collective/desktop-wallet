@@ -2,8 +2,8 @@ export default {
   COMMON: {
     ADDRESS: 'Addresse',
     ALL: 'Tous',
-    APP_NAME: 'Wallet ARK Desktop',
-    APP_NAME_SHORT: 'Wallet ARK',
+    APP_NAME: 'Wallet OSMOSE Desktop',
+    APP_NAME_SHORT: 'Wallet OSMOSE',
     APPEARANCE: 'Apparence',
     AVATAR: 'Avatar',
     BACK: 'Retour',
@@ -73,22 +73,22 @@ export default {
     RESPONSIBILITY: {
       TITLE: 'Votre responsabilité',
       STORAGE: {
-        EXPLANATION: 'La {PASSPHRASE} d\'une adresse de wallet est nécessaire pour déplacer vos fonds. Cela signifie que si votre ordinateur est mort mais que vous disposez de cette passphrase, vous pouvez toujours accéder à vos fonds. Le Wallet ARK dispose d\'une fonctionnalité qui vous permet également de chiffrer votre passphrase pour plus de sécurité. Cependant, si votre ordinateur est mort et que vous ne pouvez pas utiliser ce mot de passe chiffré pour accéder à vos fonds depuis une nouvelle machine. {NEED}.',
+        EXPLANATION: 'La {PASSPHRASE} d\'une adresse de wallet est nécessaire pour déplacer vos fonds. Cela signifie que si votre ordinateur est mort mais que vous disposez de cette passphrase, vous pouvez toujours accéder à vos fonds. Le Wallet OSMOSE dispose d\'une fonctionnalité qui vous permet également de chiffrer votre passphrase pour plus de sécurité. Cependant, si votre ordinateur est mort et que vous ne pouvez pas utiliser ce mot de passe chiffré pour accéder à vos fonds depuis une nouvelle machine. {NEED}.',
         PASSPHRASE: 'passphrase',
         ENCRYPTED: 'mot de passe encrypté',
         NEED: 'Vous aurez besoin de cette passphrase'
       },
       BACKUP: {
         ALWAYS: 'Sauvegardez toujours votre passphrase dans un endroit sûr.',
-        OPTIONS: 'Vous pouvez écrire sur papier et sauvegarder différentes copies en lieux sûrs. Vous pouvez également la sauvegarder sur une clefs chiffrée dédiée. Enfin, vous pouvez également utiliser un Ledger Nano S USB, disponible sur Ledger.com, pour sauvegarder et accéder à vos fonds depuis le Wallet ARK Desktop. Vous pouvez brancher votre Ledger Nano S sur votre ordinateur et accéder à la Blockchain ARK sans avoir à entrer votre passphrase.'
+        OPTIONS: 'Vous pouvez écrire sur papier et sauvegarder différentes copies en lieux sûrs. Vous pouvez également la sauvegarder sur une clefs chiffrée dédiée. Enfin, vous pouvez également utiliser un Ledger Nano S USB, disponible sur Ledger.com, pour sauvegarder et accéder à vos fonds depuis le Wallet OSMOSE Desktop. Vous pouvez brancher votre Ledger Nano S sur votre ordinateur et accéder à la Blockchain ARK sans avoir à entrer votre passphrase.'
       },
       REMEMBER: 'Souvenez-vous, quiconque à accès à votre passphrase peut accéder à vos fonds. Ne partagez jamais votre compte avec qui que ce soit et assurez vous de ne pas les sauvegarder sur des supports susceptibles d\'être hackés, comme un Cloud.'
     },
     TURN: {
       TITLE: 'À votre tour',
-      KNOWLEDGE: 'Désormais, vous êtes armés des principes fondamentaux à connaître pour garder votre passphrase en sécurité. Vous êtes prêts à profiter de l\'autonomie de vos échanges financiers avec le Desktop Wallet ARK.',
-      SUPPORT: 'ARK est un écosystème open-source et si vous avez besoin d\'assistance, la communauté ARK et son équipe sont là pour vous aider. Créez un post sur reddit.ark.io, ou rejoignez le chat directement sur slack.ark.io.',
-      CONCLUSION: 'Toute l\'équipe ARK.io espère que vous avez apprécié l\'expérience utilisateur du Wallet ARK Desktop pour participer à la révolution Blockchain en cours !'
+      KNOWLEDGE: 'Désormais, vous êtes armés des principes fondamentaux à connaître pour garder votre passphrase en sécurité. Vous êtes prêts à profiter de l\'autonomie de vos échanges financiers avec le Desktop Wallet OSMOSE.',
+      SUPPORT: 'OSMOSE est un écosystème open-source et si vous avez besoin d\'assistance, la communauté OSMOSE et son équipe sont là pour vous aider. Rejoignez le chat directement sur osmosecollective.slack.com.',
+      CONCLUSION: 'Toute l\'équipe OSMOSE espère que vous avez apprécié l\'expérience utilisateur du Wallet OSMOSE Desktop pour participer à la révolution Blockchain en cours !'
     }
   },
 
@@ -219,7 +219,7 @@ export default {
   },
 
   APP_FOOTER: {
-    TEXT: 'Made with ♥ by Ark'
+    TEXT: 'Made with ♥ by Ark & OSMOSE Collective'
   },
 
   APP_SIDEMENU: {
@@ -584,7 +584,7 @@ export default {
 
     WALLET_EXCHANGE: {
       CHANGELLY_TERMS: {
-        TITLE: 'Acheter {ticker} directement dans le Desktop Wallet ARK grâce au service Changelly integré',
+        TITLE: 'Acheter {ticker} directement dans le Desktop Wallet OSMOSE grâce au service Changelly integré',
         CONTENT: 'Changelly vous permet d\'effectuer des échanges depuis d\'autres cryptomonnaies vers {ticker} ainsi qu\'une option d\'achat de {ticker} directement grâce à votre carte de crédit et de débit.',
         CONFIRMATION: 'J\'ai lu et accepté les {terms} and the {privacy} de Changelly. En cliquant {button}, je reconnais avoir compris que mes transactions sont asujetties à une vérification AML/KYC effectuée par Changelly {kyc}.',
         TERMS_OF_USE: 'conditions générales',
