@@ -2,7 +2,7 @@ const os = require('os')
 const path = require('path')
 
 exports.APP = {
-  website: 'https://ark.io',
+  website: 'http://osmose.world',
   transactionExpiryMinutes: 45
 }
 
@@ -67,7 +67,7 @@ exports.MARKET = {
   source: {
     baseUrl: 'https://min-api.cryptocompare.com'
   },
-  defaultCurrency: 'BTC',
+  defaultCurrency: 'EUR',
   crypto: [
     'BTC',
     'ETH',

@@ -42,7 +42,7 @@
             @click="redirect($event)"
           />
 
-          <!-- Announcements -->
+          <!-- Announcements
           <MenuNavigationItem
             id="announcements"
             :title="$t('APP_SIDEMENU.ANNOUNCEMENTS')"
@@ -51,9 +51,9 @@
             :show-badge="showUnread"
             icon="whitepaper"
             @click="redirect($event)"
-          />
+          />-->
 
-          <!-- Plugins -->
+          <!-- Plugins
           <MenuNavigationItem
             id="plugins"
             :title="$t('APP_SIDEMENU.PLUGINS')"
@@ -62,7 +62,7 @@
             class="AppSidemenu__item"
             icon="plugins"
             @click="showPlugins"
-          />
+          /> -->
 
           <!-- Plugin pages -->
           <MenuNavigationItem

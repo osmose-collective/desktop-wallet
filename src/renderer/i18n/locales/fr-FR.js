@@ -80,7 +80,7 @@ export default {
       },
       BACKUP: {
         ALWAYS: 'Sauvegardez toujours votre passphrase dans un endroit sûr.',
-        OPTIONS: 'Vous pouvez écrire sur papier et sauvegarder différentes copies en lieux sûrs. Vous pouvez également la sauvegarder sur une clefs chiffrée dédiée. Enfin, vous pouvez également utiliser un Ledger Nano S USB, disponible sur Ledger.com, pour sauvegarder et accéder à vos fonds depuis le Wallet OSMOSE Desktop. Vous pouvez brancher votre Ledger Nano S sur votre ordinateur et accéder à la Blockchain ARK sans avoir à entrer votre passphrase.'
+        OPTIONS: 'Vous pouvez écrire sur papier et sauvegarder différentes copies en lieux sûrs. Vous pouvez également la sauvegarder sur une clefs chiffrée dédiée. Enfin, vous pouvez également utiliser un Ledger Nano S USB, disponible sur Ledger.com, pour sauvegarder et accéder à vos fonds depuis le Wallet OSMOSE Desktop. Vous pouvez brancher votre Ledger Nano S sur votre ordinateur et accéder à la Blockchain OSMOSE sans avoir à entrer votre passphrase.'
       },
       REMEMBER: 'Souvenez-vous, quiconque à accès à votre passphrase peut accéder à vos fonds. Ne partagez jamais votre compte avec qui que ce soit et assurez vous de ne pas les sauvegarder sur des supports susceptibles d\'être hackés, comme un Cloud.'
     },
@@ -753,7 +753,7 @@ export default {
       TRANSFER: 'Transférer',
       SECOND_SIGNATURE: 'Seconde Signature',
       DELEGATE_REGISTRATION: 'Enregistrement d\'un Délégué',
-      VOTE: 'Voter',
+      VOTE: 'Vote',
       UNVOTE: 'Annuler le vote',
       MULTI_SIGNATURE: 'Multi Signature',
       IPFS: 'IPFS',
@@ -865,7 +865,7 @@ export default {
 
   SYNCHRONIZER: {
     VOTE: 'voté pour',
-    UNVOTE: 'vote annulé',
+    UNVOTE: 'Annuler vote',
     NEW_SECOND_SIGNATURE: 'Nouvelle seconde signature: {address}',
     NEW_DELEGATE_REGISTRATION: 'Nouveau délégué: {address} enregistré en tant que {username}',
     NEW_VOTE: 'Nouveau vote: {address} {voteUnvote} {publicKey}',
@@ -933,7 +933,7 @@ export default {
     FORGED: 'Forgé',
     BLOCKS: 'Blocs',
     VOTERS: 'Votants',
-    UNVOTE: 'Vote annulé',
+    UNVOTE: 'Annuler vote',
     VOTES: 'Votes',
     VOTE: 'Vote',
     USERNAME_EMPTY_ERROR: 'Le nom d\'utilisateur doit comporter au moins un caractère',
