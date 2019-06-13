@@ -102,6 +102,17 @@
             @close="closeShowSettings"
           />
 
+          <!-- Button Play/Pause -->
+          <MenuNavigationItem
+            id="play_radio"
+            :title="$t('APP_SIDEMENU.SETTINGS.TITLE')"
+            :is-horizontal="isHorizontal"
+            :can-activate="false"
+            class="AppSidemenu__item"
+            :icon="radioIsPlay"
+            @click="playRadioStream"
+          />
+
           <!-- Settings -->
           <MenuNavigationItem
             id="settings"
@@ -212,7 +223,9 @@ export default {
     isPluginMenuVisible: false,
     isPluginConfirmationVisible: false,
     isSettingsVisible: false,
-    activeItem: vm.$route.name
+    activeItem: vm.$route.name,
+    radioIsPlay: 'play-radio',
+    radio: new Audio('http://stream.osmose.world/radio-imaginee-192.mp3')
   }),
 
   computed: {
@@ -258,6 +271,16 @@ export default {
 
     toggleShowPluginMenu () {
       this.isPluginMenuVisible = !this.isPluginMenuVisible
+    },
+
+    playRadioStream () {
+      if (this.radioIsPlay === 'play-radio') {
+        this.radioIsPlay = 'pause-radio'
+        this.radio.play()
+      } else {
+        this.radio.pause()
+        this.radioIsPlay = 'play-radio'
+      }
     },
 
     toggleShowSettings () {
