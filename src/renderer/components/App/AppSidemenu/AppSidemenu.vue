@@ -105,7 +105,7 @@
           <!-- Button Play/Pause -->
           <MenuNavigationItem
             id="play_radio"
-            :title="$t('APP_SIDEMENU.SETTINGS.TITLE')"
+            :title="$t('APP_SIDEMENU.RADIO')"
             :is-horizontal="isHorizontal"
             :can-activate="false"
             class="AppSidemenu__item"
