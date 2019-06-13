@@ -242,6 +242,7 @@ export default {
         NOTE: 'Tutti i tuoi dati, inclusi profili, portafogli, reti e contatti verranno rimossi dall\'app e ripristinati sui valori predefiniti. I dati, come le transazioni, che sono sulla blockchain non possono essere rimossi.'
       }
     },
+    RADIO: 'Web Radio',
     WALLETS: 'I miei portafogli'
   },
 
