@@ -1,7 +1,7 @@
 {
   "id": "osmose.testnet",
   "name": "OSMOSE Testnet",
-  "title": "OSMOSE Testnet",
+  "title": "Testnet",
   "server": "http://testnet.osmose.world:4103",
   "description": "Osmose testnet, only for testing purpose.",
   "imagePath": "networks/ark.png",
