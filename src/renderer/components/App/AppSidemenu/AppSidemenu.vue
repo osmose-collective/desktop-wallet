@@ -84,15 +84,15 @@
           />
         </div>
 
-        <div class="flexify">
-          <!-- Important notification / new releases -->
-          <AppSidemenuImportantNotification
+        <!-- <div class="flexify"> -->
+        <!-- Important notification / new releases -->
+        <!-- <AppSidemenuImportantNotification
             v-if="isImportantNotificationVisible && hasNewRelease"
             :is-horizontal="isHorizontal"
             class="AppSidemenu__item"
             @close="hideImportantNotification"
           />
-        </div>
+        </div> -->
 
         <div class="flexify">
           <AppSidemenuSettings
@@ -100,6 +100,17 @@
             :outside-click="true"
             :is-horizontal="isHorizontal"
             @close="closeShowSettings"
+          />
+
+          <!-- Button Play/Pause -->
+          <MenuNavigationItem
+            id="play_radio"
+            :title="$t('APP_SIDEMENU.RADIO')"
+            :is-horizontal="isHorizontal"
+            :can-activate="false"
+            class="AppSidemenu__item"
+            :icon="radioIsPlay"
+            @click="playRadioStream"
           />
 
           <!-- Settings -->
@@ -177,7 +188,7 @@ import releaseService from '@/services/release'
 import AppSidemenuPlugins from './AppSidemenuPlugins'
 import AppSidemenuSettings from './AppSidemenuSettings'
 import AppSidemenuNetworkStatus from './AppSidemenuNetworkStatus'
-import AppSidemenuImportantNotification from './AppSidemenuImportantNotification'
+// import AppSidemenuImportantNotification from './AppSidemenuImportantNotification'
 import AppSidemenuPluginConfirmation from './AppSidemenuPluginConfirmation'
 import { MenuNavigation, MenuNavigationItem } from '@/components/Menu'
 import { ProfileAvatar } from '@/components/Profile'
@@ -190,7 +201,7 @@ export default {
     AppSidemenuPlugins,
     AppSidemenuSettings,
     AppSidemenuNetworkStatus,
-    AppSidemenuImportantNotification,
+    // AppSidemenuImportantNotification,
     AppSidemenuPluginConfirmation,
     MenuNavigation,
     MenuNavigationItem,
@@ -212,12 +223,14 @@ export default {
     isPluginMenuVisible: false,
     isPluginConfirmationVisible: false,
     isSettingsVisible: false,
-    activeItem: vm.$route.name
+    activeItem: vm.$route.name,
+    radioIsPlay: 'play-radio',
+    radio: new Audio('http://stream.osmose.world/radio-imaginee-192.mp3')
   }),
 
   computed: {
     ...mapGetters({
-      latestReleaseVersion: 'app/latestReleaseVersion',
+      // latestReleaseVersion: 'app/latestReleaseVersion',
       unreadAnnouncements: 'announcements/unread'
     }),
     hasNewRelease () {
@@ -258,6 +271,16 @@ export default {
 
     toggleShowPluginMenu () {
       this.isPluginMenuVisible = !this.isPluginMenuVisible
+    },
+
+    playRadioStream () {
+      if (this.radioIsPlay === 'play-radio') {
+        this.radioIsPlay = 'pause-radio'
+        this.radio.play()
+      } else {
+        this.radio.pause()
+        this.radioIsPlay = 'play-radio'
+      }
     },
 
     toggleShowSettings () {

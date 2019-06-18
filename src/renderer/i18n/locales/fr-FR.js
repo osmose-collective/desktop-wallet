@@ -245,6 +245,7 @@ export default {
       },
       THEME: 'Thème'
     },
+    RADIO: 'Web Radio',
     WALLETS: 'Mes wallets'
   },
 
