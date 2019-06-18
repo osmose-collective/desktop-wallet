@@ -1,6 +1,6 @@
 [{
   "ip": "testnet.osmose.world",
-  "port": 4103,
+  "port": 4003,
   "isHttps": false,
   "version": "2"
 }, {
