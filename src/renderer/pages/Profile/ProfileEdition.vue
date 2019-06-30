@@ -179,7 +179,80 @@
 
             <footer class="ProfileEdition__footer pb-10">
               <button
-                :disabled="!isModified || isNameEditable"
+                :disabled="!isModified || nameError"
+                class="blue-button"
+                @click="save"
+              >
+                {{ $t('COMMON.SAVE') }}
+              </button>
+            </footer>
+          </MenuTabItem>
+
+          <MenuTabItem
+            :label="$t('PAGES.PROFILE_EDITION.TAB_DESIGN.TITLE')"
+            tab="design"
+            class="p-5"
+          >
+            <ListDivided>
+              <ListDividedItem
+                :label="$t('COMMON.HIDE_WALLET_BUTTON_TEXT')"
+                class="ProfileEdition__wallet-button-text"
+              >
+                <ButtonSwitch
+                  :is-active="hideWalletButtonText"
+                  @change="selectHideWalletButtonText"
+                />
+              </ListDividedItem>
+
+              <ListDividedItem
+                :label="$t('COMMON.IS_MARKET_CHART_ENABLED')"
+                :item-label-class="!isMarketEnabled ? 'opacity-50' : ''"
+                :item-value-class="!isMarketEnabled ? 'opacity-50 cursor-not-allowed' : ''"
+                class="ProfileEdition__market-chart"
+              >
+                <ButtonSwitch
+                  :is-disabled="!isMarketEnabled"
+                  :is-active="isMarketChartEnabled"
+                  @change="selectIsMarketChartEnabled"
+                />
+              </ListDividedItem>
+
+              <ListDividedItem
+                :label="$t('COMMON.THEME')"
+                class="ProfileEdition__theme"
+              >
+                <MenuDropdown
+                  v-if="pluginThemes"
+                  :class="{
+                    'ProfileEdition__field--modified': modified.theme && modified.theme !== profile.theme
+                  }"
+                  :items="themes"
+                  :value="theme"
+                  :position="['-50%', '0%']"
+                  @select="selectTheme"
+                />
+                <SelectionTheme
+                  v-else
+                  :value="theme"
+                  @input="selectTheme"
+                />
+              </ListDividedItem>
+
+              <ListDividedItem
+                :label="$t('COMMON.BACKGROUND')"
+                class="ProfileEdition__background"
+              >
+                <SelectionBackground
+                  :max-visible-items="5"
+                  :selected="background"
+                  @select="selectBackground"
+                />
+              </ListDividedItem>
+            </ListDivided>
+
+            <footer class="ProfileEdition__footer pb-10">
+              <button
+                :disabled="!isModified || nameError"
                 class="blue-button"
                 @click="save"
               >
@@ -326,6 +399,9 @@ export default {
     theme () {
       return this.modified.theme || this.profile.theme
     },
+    hideWalletButtonText () {
+      return this.modified.hideWalletButtonText || this.profile.hideWalletButtonText
+    },
     isMarketChartEnabled () {
       return this.modified.isMarketChartEnabled || this.profile.isMarketChartEnabled
     },
@@ -415,13 +491,25 @@ export default {
     },
 
     async updateProfile () {
+      const hasNameError = this.nameError
+      if (hasNameError) {
+        this.modified.name = this.profile.name
+      }
       await this.$store.dispatch('profile/update', {
         ...this.profile,
         ...this.modified
       })
+
+      if (hasNameError) {
+        this.$error(this.$t('COMMON.FAILED_UPDATE', {
+          name: this.$t('COMMON.PROFILE_NAME'),
+          reason: this.$t('PAGES.PROFILE_EDITION.ERROR.DUPLICATE_PROFILE')
+        }))
+      }
     },
 
     async save () {
+      this.toggleIsNameEditable()
       await this.updateProfile()
 
       this.$router.push({ name: 'profiles' })
@@ -472,6 +560,10 @@ export default {
 
     async selectTheme (theme) {
       this.__updateSession('theme', theme)
+    },
+
+    async selectHideWalletButtonText (hideWalletButtonText) {
+      this.__updateSession('hideWalletButtonText', hideWalletButtonText)
     },
 
     async selectIsMarketChartEnabled (isMarketChartEnabled) {
