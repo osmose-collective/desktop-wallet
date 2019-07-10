@@ -14,9 +14,11 @@ export default {
     DATE: 'Date',
     DELEGATE: 'Delegué',
     DONE: 'Terminé',
+    FAILED_UPDATE: 'Échec de la mise à jour de \'{name}\'. Raison: {reason}',
     FAILED_FETCH: 'Erreur lors de l\'extraction {name}. Reason: "{msg}".',
     FETCH: 'Extraire',
     FINISH: 'Finir',
+    HIDE_WALLET_BUTTON_TEXT: 'Cacher le texte des boutons du wallet',
     IS_MARKET_CHART_ENABLED: 'Courbes du prix sur le tableau de bord',
     LANGUAGE: 'Langues',
     LEDGER: 'Ledger',
@@ -161,7 +163,8 @@ export default {
       INVALID_LENGTH: 'La clef publique doit être composée d\'au moins 66 caractères.'
     },
     VENDOR_FIELD: {
-      LIMIT_REACHED: 'Vous pouvez au maximum entrer {0} caractères seulement'
+      LIMIT_REACHED: 'Vous pouvez au maximum entrer {0} caractères seulement',
+      LIMIT_REMAINING: '{0}/{1} Restant(s)'
     },
     REQUIRED: '{0}\' est nécessaire',
     SEND_NOT_ENABLED: 'L\'envoi n\'est pas disponible pour le wallet sélectionné',
@@ -367,6 +370,27 @@ export default {
     TITLE: 'Charger des Ledger Wallets additionnels'
   },
 
+  MODAL_EXPORT_WALLETS: {
+    ADVANCED: 'Options avancées',
+    CANCEL: 'Annuler',
+    COUNT: '{count} wallets seront exportés',
+    ERROR: {
+      EXPORT_WALLETS: 'Échec de l\'export de vos wallets'
+    },
+    EXPORT: 'Exporter 0 Wallet | Exporter 1 Wallet | Exporter {count} Wallets',
+    INSTRUCTIONS: 'Vos wallets exportés ne contiendront pas vos passphrases, uniquement les adresses et leurs noms respectifs seront sauvegardés!',
+    OPTIONS: {
+      ADD_NETWORK: 'Ajouter les informations sur le réseau',
+      EXCLUDE_EMPTY: 'Exclure les wallets vides',
+      EXCLUDE_LEDGER: 'Exclure les walelts ledger',
+      EXCLUDE_UNNAMED: 'Exclure les wallets sans nom'
+    },
+    SUCCESS: {
+      EXPORT_WALLETS: 'Vos wallets ont été exportés avec succès dans: {path}'
+    },
+    TITLE: 'Exporter les wallets'
+  },
+
   MODAL_CONFIRMATION: {
     CANCEL: 'Non, annuler',
     CONTINUE: 'Oui, je suis sûr',
@@ -559,6 +583,9 @@ export default {
     },
 
     PROFILE_EDITION: {
+      ERROR: {
+        DUPLICATE_PROFILE: 'Un profil existe déjà avec ce nom'
+      },
       TAB_PROFILE: {
         INSTRUCTIONS: {
           HEADER: 'Editer ce profil',
@@ -598,12 +625,14 @@ export default {
       LEDGER: {
         CACHE: 'Mettre en Cache vos ledger wallets?',
         CACHE_INFO: 'Mettre en Cache les wallets de votre ledger permet de réduire les temps de chargement lorsqu\'il est connecté',
-        ADDITIONAL: '# de Ledger Wallets'
+        ADDITIONAL: 'Charger des Ledger Wallets additionnels',
+        OPTIONS: 'Options Ledger'
       },
       CREATE_WALLET: 'Créer Wallet',
       DELETE_WALLET: 'Supprimer wallet',
       HEADER: 'Mes wallets',
       IMPORT_WALLET: 'Importer Wallet',
+      EXPORT_WALLETS: 'Exporter Wallets',
       LOADING_LEDGER: 'Chargement des Ledger wallets...',
       SHOW_WALLET: 'Afficher wallet',
       TOTAL_BALANCE: 'Solde total',
@@ -900,7 +929,7 @@ export default {
   WALLET_SECOND_SIGNATURE: {
     NEW: 'Générer une nouvelle seconde passphrase',
     ALREADY_REGISTERED: 'Il existe déjà une seconde passphrase enregistrée pour cette adresse',
-    INSTRUCTIONS: 'Ceci est votre seconde passphrase. Assurez-vous de la sauvegarder en lieu sûr !'
+    INSTRUCTIONS: 'Vous aurez besoin des deux passphrases composés de 12 mots pour intéragir avec le réseau. Gardez-les en lieu sûr!'
   },
 
   WALLET_SIDEBAR: {
