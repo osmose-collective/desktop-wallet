@@ -8,6 +8,35 @@
 
       <div class="flex flex-col justify-center pl-4">
         <span class="font-bold">
+          {{ $t('SIGN_VERIFY.SIGN_DELEGATE_TRANSACTION') }}
+        </span>
+        <span>{{ $t('SIGN_VERIFY.SIGN_DELEGATE_TRANSACTION_FOR_EXPORT') }}</span>
+      </div>
+
+      <div class="flex items-center ml-4">
+        <ButtonModal
+          :label="$t('SIGN_VERIFY.EXPORT')"
+          class="blue-button py-2 px-4"
+        >
+          <template slot-scope="{ toggle, isOpen }">
+            <WalletDelegateSignModal
+              v-if="isOpen"
+              :wallet="currentWallet"
+              @cancel="toggle"
+              @signed="onSigned(toggle)"
+            />
+          </template>
+        </ButtonModal>
+      </div>
+    </div>
+    <div class="flex flex-row pb-5 border-b border-dashed border-theme-line-separator">
+      <WalletIdenticon
+        :value="currentWallet.address"
+        :size="75"
+      />
+
+      <div class="flex flex-col justify-center pl-4">
+        <span class="font-bold">
           {{ $t('SIGN_VERIFY.VERIFY_WALLET') }}
         </span>
         <span>{{ $t('SIGN_VERIFY.VERIFY_BY_SIGNING') }}</span>
@@ -94,7 +123,7 @@
 
 <script>
 import { ButtonClipboard, ButtonModal } from '@/components/Button'
-import { WalletIdenticon, WalletSignModal, WalletVerifyModal } from '../'
+import { WalletDelegateSignModal, WalletIdenticon, WalletSignModal, WalletVerifyModal } from '../'
 import SvgIcon from '@/components/SvgIcon'
 import { clone } from 'lodash'
 
@@ -106,6 +135,7 @@ export default {
     ButtonModal,
     WalletIdenticon,
     SvgIcon,
+    WalletDelegateSignModal,
     WalletSignModal,
     WalletVerifyModal
   },

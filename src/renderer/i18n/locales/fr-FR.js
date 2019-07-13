@@ -297,7 +297,7 @@ export default {
 
   BUTTON_CLIPBOARD: {
     DONE: 'Copié!',
-    COPY_TO_CLIPBOARD: 'Copié {0} dans le presse-papier',
+    COPY_TO_CLIPBOARD: 'Copier {0} dans le presse-papier',
     NOT_SUPPORTED: 'La copie dans le presse-papier n\'est pas supportée.'
   },
 
@@ -873,10 +873,16 @@ export default {
   SIGN_VERIFY: {
     VERIFY_WALLET: 'Vérifier votre wallet',
     VERIFY_BY_SIGNING: 'Signer un message pour vérifier votre wallet',
+    SIGN_DELEGATE_TRANSACTION: 'Signer et exporter une transaction délégué genèse',
+    SIGN_DELEGATE_TRANSACTION_FOR_EXPORT: 'Signer une transaction d\'enregistrement de délégué et l\'exporter en json',
     SIGN: 'Signer',
     VERIFY: 'Vérifier',
+    EXPORT: 'Exporter',
     TITLE_SIGN: 'Signer un message',
     TITLE_VERIFY: 'Vérifier le message',
+    TITLE_DELEGATE_TRANSACTION: 'Transaction délégué genèse',
+    DELEGATE_NAME: 'Nom de délégué',
+    SIGNED_TRANSACTION: 'Transaction signée',
     MESSAGE: 'Message',
     ADDRESS: 'Addresse',
     PUBLIC_KEY: 'Clef Publique',

@@ -663,10 +663,14 @@ export default class ClientService {
    * @param {Boolean} returnObject - to return the transaction of its internal struct
    * @returns {Object}
    */
-  async buildDelegateRegistration ({ username, fee, passphrase, secondPassphrase, wif, networkWif }, isAdvancedFee = false, returnObject = false) {
+  async buildDelegateRegistration ({ username, fee, passphrase, secondPassphrase, wif, networkWif, genesis = false }, isAdvancedFee = false, returnObject = false) {
     const staticFee = store.getters['transaction/staticFee'](2) || V1.fees[2]
     if (!isAdvancedFee && fee > staticFee) {
       throw new Error(`Delegate registration fee should be smaller than ${staticFee}`)
+    }
+
+    if (genesis) {
+      fee = 0
     }
 
     const transaction = transactionBuilder
@@ -682,7 +686,8 @@ export default class ClientService {
       passphrase,
       secondPassphrase,
       wif,
-      networkWif
+      networkWif,
+      genesis
     }, returnObject)
   }
 
@@ -766,14 +771,18 @@ export default class ClientService {
    * @param {Boolean} returnObject - to return the transaction of its internal struct
    * @returns {Object}
    */
-  __signTransaction ({ transaction, passphrase, secondPassphrase, wif, networkWif }, returnObject = false) {
+  __signTransaction ({ transaction, passphrase, secondPassphrase, wif, networkWif, genesis = false }, returnObject = false) {
     const network = store.getters['session/network']
     transaction = transaction.network(network.version)
 
     // TODO replace with dayjs
-    const epochTime = moment(network.constants.epoch).utc().valueOf()
-    const now = moment().valueOf()
-    transaction.data.timestamp = Math.floor((now - epochTime) / 1000)
+    if (!genesis) {
+      const epochTime = moment(network.constants.epoch).utc().valueOf()
+      const now = moment().valueOf()
+      transaction.data.timestamp = Math.floor((now - epochTime) / 1000)
+    } else {
+      transaction.data.timestamp = 0
+    }
 
     if (passphrase) {
       transaction = transaction.sign(this.normalizePassphrase(passphrase))
