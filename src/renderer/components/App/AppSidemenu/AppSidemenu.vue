@@ -196,7 +196,6 @@ export default {
     isImportantNotificationVisible: true,
     isPluginMenuVisible: false,
     isPluginConfirmationVisible: false,
-    isSettingsVisible: false,
     activeItem: vm.$route.name,
     radioIsPlay: 'play-radio',
     radio: new Audio('http://stream.osmose.world/radio-imaginee-192.mp3')
@@ -254,10 +253,6 @@ export default {
         this.radio.pause()
         this.radioIsPlay = 'play-radio'
       }
-    },
-
-    toggleShowSettings () {
-      this.isSettingsVisible = !this.isSettingsVisible
     },
 
     toggleShowNetworkStatus () {
