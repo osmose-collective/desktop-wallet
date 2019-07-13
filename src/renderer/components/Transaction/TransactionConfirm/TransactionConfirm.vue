@@ -99,7 +99,7 @@ export default {
 
   computed: {
     totalAmount () {
-      return this.transaction.amount + this.transaction.fee
+      return this.currency_toBuilder(this.transaction.amount).add(this.transaction.fee).value
     },
     currentWallet () {
       return this.wallet || this.wallet_fromRoute
@@ -147,7 +147,10 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="postcss" scoped>
+.TransactionConfirm__send-button:hover > span {
+  @apply .bg-blue
+}
 .TransactionConfirm__send-button,
 .TransactionConfirm__send-button > span {
   transition: background-color 0.5s;
