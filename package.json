@@ -11,14 +11,12 @@
     "Alex Barnsley <alex@ark.io>",
     "ItsANameToo <itsanametoo@protonmail.com>",
     "Juan A. Martín <juan@ark.io>",
-    "Lúcio Rubens <lucio@ark.io>"
+    "Lúcio Rubens <lucio@ark.io>",
+    "Fabien Palazo <adm@osmose.world>"
   ],
   "description": "OSMOSE Collective Desktop Wallet",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/ArkEcosystem/osmose-collective/issues"
-  },
-  "homepage": "https://github.com/ArkEcosystem/osmose-collective#readme",
+  "homepage": "https://github.com/osmose-collective/mobile-wallet#readme",
   "main": "./dist/electron/main.js",
   "scripts": {
     "build": "node .electron-vue/build.js && electron-builder",
