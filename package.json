@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "osmose-desktop-wallet",
-  "version": "1.2.1",
+  "version": "1.0.2",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/osmose-collective/desktop-wallet.git"

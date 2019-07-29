@@ -309,11 +309,11 @@ export default {
         this.$warn('Ledger Disconnected!')
       })
 
-      /* try {
+      try {
         await this.$store.dispatch('app/checkNewVersion')
       } catch (error) {
         this.$error(this.$t('APP.RELEASE.REQUEST_ERROR'))
-      } */
+      }
     },
 
     onPortalChange (options) {

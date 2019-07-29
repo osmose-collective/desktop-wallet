@@ -84,15 +84,15 @@
           />
         </div>
 
-        <!-- <div class="flexify"> -->
-        <!-- Important notification / new releases -->
-        <!-- <AppSidemenuImportantNotification
+        <div class="flexify">
+          <!-- Important notification / new releases -->
+          <AppSidemenuImportantNotification
             v-if="isImportantNotificationVisible && hasNewRelease"
             :is-horizontal="isHorizontal"
             class="AppSidemenu__item"
             @close="hideImportantNotification"
           />
-        </div> -->
+        </div>
 
         <div class="flexify">
           <AppSidemenuSettings
@@ -163,7 +163,7 @@ import releaseService from '@/services/release'
 import AppSidemenuPlugins from './AppSidemenuPlugins'
 import AppSidemenuSettings from './AppSidemenuSettings'
 import AppSidemenuNetworkStatus from './AppSidemenuNetworkStatus'
-// import AppSidemenuImportantNotification from './AppSidemenuImportantNotification'
+import AppSidemenuImportantNotification from './AppSidemenuImportantNotification'
 import AppSidemenuPluginConfirmation from './AppSidemenuPluginConfirmation'
 import { MenuNavigation, MenuNavigationItem } from '@/components/Menu'
 import { ProfileAvatar } from '@/components/Profile'
@@ -176,7 +176,7 @@ export default {
     AppSidemenuPlugins,
     AppSidemenuSettings,
     AppSidemenuNetworkStatus,
-    // AppSidemenuImportantNotification,
+    AppSidemenuImportantNotification,
     AppSidemenuPluginConfirmation,
     MenuNavigation,
     MenuNavigationItem,
@@ -203,7 +203,7 @@ export default {
 
   computed: {
     ...mapGetters({
-      // latestReleaseVersion: 'app/latestReleaseVersion',
+      latestReleaseVersion: 'app/latestReleaseVersion',
       unreadAnnouncements: 'announcements/unread'
     }),
     hasNewRelease () {
