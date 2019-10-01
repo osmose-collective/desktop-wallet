@@ -2,6 +2,8 @@
 
 ![OSMOSE Desktop Wallet](./banner.jpg)
 
+> Lead Maintainer: [Alex Barnsley](https://github.com/alexbarnsley)
+
 ## Download
 [Latest Release](https://github.com/osmose-collective/desktop-wallet/releases)
 
@@ -19,13 +21,13 @@ sudo apt-get install libudev-dev libusb-1.0-0-dev
 - Python 2.7
 - Visual Studio 2017
 
-#### Node 11
-To download, head over to [here](https://nodejs.org/en/) and download Node 11.
+#### Node 12
+To download, head over to [here](https://nodejs.org/en/) and download Node 12.
 
 If you already have npm installed, you can run
 ```
 npm install -g n
-sudo n 11
+sudo n 12
 ```
 
 #### Yarn
@@ -105,12 +107,8 @@ If you discover a security vulnerability within this project, please send an e-m
 
 ## Credits
 
- - [Alex Barnsley](https://github.com/alexbarnsley)
- - [ItsANameToo](https://github.com/ItsANameToo)
- - [Juan A. Martín](https://github.com/j-a-m-l)
- - [Lúcio Rubens](https://github.com/luciorubeens)
- - [All Contributors](../../contributors)
+This project exists thanks to all the people who [contribute](../../contributors).
 
 ## License
 
-[MIT](LICENSE) © [ArkEcosystem](https://ark.io)
+[MIT](LICENSE) © [ARK Ecosystem](https://ark.io)

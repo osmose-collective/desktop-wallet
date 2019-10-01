@@ -201,7 +201,7 @@
 </template>
 
 <script>
-import { clone, filter, sortBy, uniqBy } from 'lodash'
+import { filter, sortBy, uniqBy } from 'lodash'
 import Loader from '@/components/utils/Loader'
 import { MenuNavigation, MenuNavigationItem } from '@/components/Menu'
 import { WalletIdenticon, WalletIdenticonPlaceholder } from '../'
@@ -308,9 +308,11 @@ export default {
       },
       set (filters) {
         this.$store.dispatch('session/setWalletSidebarFilters', filters)
-        const profile = clone(this.session_profile)
-        profile.walletSidebarFilters = filters
-        this.$store.dispatch('profile/update', profile)
+
+        this.$store.dispatch('profile/update', {
+          ...this.session_profile,
+          walletSidebarFilters: filters
+        })
       }
     },
 
@@ -319,11 +321,13 @@ export default {
         return this.$store.getters['session/walletSidebarSortParams'] ||
           { field: 'name', type: 'asc' }
       },
-      set (params) {
-        this.$store.dispatch('session/setWalletSidebarSortParams', params)
-        const profile = clone(this.session_profile)
-        profile.walletSidebarSortParams = params
-        this.$store.dispatch('profile/update', profile)
+      set (sortParams) {
+        this.$store.dispatch('session/setWalletSidebarSortParams', sortParams)
+
+        this.$store.dispatch('profile/update', {
+          ...this.session_profile,
+          walletSidebarSortParams: sortParams
+        })
       }
     }
   },

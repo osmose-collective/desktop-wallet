@@ -23,6 +23,7 @@ export default {
     LANGUAGE: 'Langues',
     LEDGER: 'Ledger',
     LEDGER_WALLET: 'Ceci est un Ledger Wallet',
+    LOAD: 'Charger',
     NETWORK: 'Network',
     NETWORK_NAME: 'Ce nom est fourni par le réseau',
     NEXT: 'Suivant',
@@ -120,7 +121,7 @@ export default {
     CONNECTED: 'Connecté à un peer',
     CONNECT_CUSTOM: 'Se connecter à un peer spécifique',
     CONNECT_FAILED: 'Erreur de connexion avec le peer',
-    DELAY: 'Latence',
+    LATENCY: 'Latence',
     DISCONNECT: 'Déconnecter du peer',
     FAILED_REFRESH: 'Erreur dans la mise à jour des peers',
     HEIGHT: 'Hauteur de Bloc',
@@ -136,6 +137,7 @@ export default {
     TOO_LONG: 'Le \'{0}\' est trop long',
     INVALID_URI: 'URI invalide',
     INVALID_FORMAT: 'Format invalide',
+    INVALID_TYPE: 'Type invalide',
     MAX_LENGTH: 'Max {0}',
     MUST_BE_GREATER_THAN: 'Doit être supérieur à {0}',
     NOT_MATCH: '{0}\' ne correspond pas à \'{1}\'',
@@ -166,6 +168,7 @@ export default {
       LIMIT_REACHED: 'Vous pouvez au maximum entrer {0} caractères seulement',
       LIMIT_REMAINING: '{0}/{1} Restant(s)'
     },
+    RECIPIENT_DIFFERENT_NETWORK: 'Le destinataire {0} appartient à un réseau différent',
     REQUIRED: '{0}\' est nécessaire',
     SEND_NOT_ENABLED: 'L\'envoi n\'est pas disponible pour le wallet sélectionné',
     WALLET_NOT_ACTIVE: 'Sélectionnez un wallet, et ouvrez à nouveau l\'URI',
@@ -182,7 +185,7 @@ export default {
   },
 
   TIME_FORMAT: {
-    'DEFAULT': 'Par défaut',
+    DEFAULT: 'Par défaut',
     '12H': '12h',
     '24H': '24h'
   },
@@ -237,7 +240,13 @@ export default {
     SETTINGS: {
       CURRENCY: 'Devise',
       DARK_MODE: 'Dark mode',
-      SCREENSHOT_PROTECTION: 'Protection contre les captures d\'écran',
+      SCREENSHOT_PROTECTION: {
+        TITLE: 'Protection contre les captures d\'écran',
+        QUESTION: 'Êtes-vous sûr de vouloir désactiver la protection contre les captures d\'écran?',
+        NOTE: 'Cette fonction permet aux applications de protéger leur propre contenu de fenêtre à l\'écran contre la capture ou la copie via les utilitaires de capture d\'écran.',
+        SESSION_ONLY: 'Désactiver pour cette session uniquement',
+        PERMANENTLY: 'Désactiver de façon permanente'
+      },
       BACKGROUND_UPDATE_LEDGER: 'Mise à jour du Ledger en tâche de fond',
       BROADCAST_PEERS: 'Diffusion à plusieurs peers',
       TITLE: 'Paramètres actuels',
@@ -255,14 +264,6 @@ export default {
   APP_SIDEMENU_NOTIFICATION: {
     NOTIFICATION: 'Une nouvelle ({version}) est disponible. Mettre à jour maintenant!',
     TOOLTIP: 'Nouvelle version ({version}) a été mise en ligne!'
-  },
-
-  APP_SIDEMENU_PLUGIN_CONFIRMATION: {
-    QUESTION: 'Êtes-vous sûr de vouloir activer le système d\'extensions ?',
-    NO: 'Non, garder inactif',
-    YES: 'Oui, activer l\'extension',
-    NOTICE: 'ATTENTION: Cette fonctionnalité est actuellement en BETA. Toutes les extensions additionnelles sont utilisées à vos risques et périls. Nous ne pouvons pas pour le moment vérifier et attester de la sécurité des extensions développés par des tiers. En installant ces extensions vous reconnaissez avoir pris connaissance de cette information, et assumez pleinement les reponsabilités liés à l\'usage d\'un service tiers.',
-    WARNING: 'Merci de faire attention lorsque vous installez des extensions !'
   },
 
   MARKET_CHART: {
@@ -292,7 +293,8 @@ export default {
   },
 
   MARKET_CHART_HEADER: {
-    PRICE: 'prix en {currency}'
+    PRICE: 'prix en {currency}',
+    SHOW_CHART: 'Afficher le graphique'
   },
 
   BUTTON_CLIPBOARD: {
@@ -333,6 +335,7 @@ export default {
   },
 
   INPUT_FEE: {
+    LAST: 'Dernière',
     MINIMUM: 'Minimum',
     AVERAGE: 'Moyenne',
     MAXIMUM: 'Maximum',
@@ -732,6 +735,7 @@ export default {
   PLUGIN_ENABLE_CONFIRMATION: {
     QUESTION: 'Êtes-vous vous sûr de vouloir activer cette extension ?',
     NO: 'Non, garder désactivé.',
+    NOTICE: 'ATTENTION: En acceptant cette clause de non-responsabilité, vous confirmez que vous ajoutez un plugin tiers non testé et non vérifié au WALLET. OSMOSE n\'assume aucune responsabilité pour tout dommage causé par ce plug-in et n\'a pas la responsabilité de les tester pour les vulnérabilités de sécurité. Tous les tests de sécurité et la découverte des vulnérabilités sont de la seule responsabilité de l\'auteur du plugin. OSMOSE ne donne aucune garantie, expresse ou implicite, concernant les conditions de qualité marchande ou d\'adéquation à un usage particulier d\'un plugin tiers. ARK SCIC ne fait aucune représentation sur la fonctionnalité, l\'exactitude, la disponibilité, la qualité, l\'exhaustivité, la sécurité, la validité ou la non-violation de tout plugin tiers. Tout plugin tiers utilisé le fait à vos risques et périls.',
     YES: 'You, activer l\'extension.'
   },
 
@@ -803,6 +807,7 @@ export default {
       MULTI_PAYMENT: 'Le Multi payment n\'a pas pu être créé',
       DELEGATE_RESIGNATION: 'La démission du délégué n\'a pas été validée',
       SAVE_OFFLINE: 'Erreur dans la sauvegarde de votre fichier de transaction',
+      LOAD_FROM_FILE: 'Impossible de charger le fichier de transaction',
       EXPIRED: 'La transaction a expiré avant d\'être traitée : {transactionId}',
       FEE_TOO_LOW: 'La transaction n\'a pas pu être envoyée car les frais ({fee}) sont trop bas',
       NOTHING_SENT: 'La transaction n\'a pas pu être envoyée. Veuillez vérifier la connection à votre réseau ou changer de peer'
@@ -825,7 +830,8 @@ export default {
       TIMELOCK_TRANSFER: 'Timelock transfer créé avec succès',
       MULTI_PAYMENT: 'Multi payment créé avec succès',
       DELEGATE_RESIGNATION: 'Démission du délégué effectuée avec succès',
-      SAVE_OFFLINE: 'Le fichier de transaction a été sauvegardé avec succès : {path}'
+      SAVE_OFFLINE: 'Le fichier de transaction a été sauvegardé avec succès : {path}',
+      LOAD_FROM_FILE: 'Le fichier de transaction a été chargé avec succès'
     },
     VOTE: {
       VOTE_DELEGATE: 'Voter pour le délégué {delegate}',
@@ -850,6 +856,7 @@ export default {
     LEDGER_SIGN_WAIT: 'En attente de la signature du Ledger. Veuillez vérifier et signer la transaction quand vous êtes prêt.',
     LEDGER_SIGN_FAILED: 'Signature impossible à partir du Ledger',
     LEDGER_USER_DECLINED: 'Utilisateur Refusé',
+    LOAD_FROM_FILE: 'Charger la transaction à partir du fichier',
     MULTIPLE: 'Multiple',
     OPEN_IN_EXPLORER: 'Ouvrir dans l\'Explorateur',
     PASSPHRASE: 'Passphrase',
@@ -974,6 +981,7 @@ export default {
     VOTE: 'Vote',
     USERNAME_EMPTY_ERROR: 'Le nom d\'utilisateur doit comporter au moins un caractère',
     USERNAME_ERROR: 'Aucun caractère spécifique ni majuscule n\'est autorisé',
+    USERNAME_EXISTS: 'Un délégué avec ce nom existe déjà',
     USERNAME_MAX_LENGTH_ERROR: 'Le nom d\'utilisateur doit comporter au maximum 20 caractères',
     ALREADY_REGISTERED: 'Ce wallet est déjà enregistré en tant que délégué',
     BLOG: 'Guide de Vote',
@@ -988,6 +996,10 @@ export default {
     AWAITING_VOTE_CONFIRMATION: 'Votre {type} est en attente de confirmation',
     LOADING_VOTE: 'Chargement des details...',
     SEARCH_DELEGATE: 'Recherche de Délégués'
+  },
+
+  WALLET_GRID: {
+    LOADING_LEDGER: 'Chargement des Ledger wallets...'
   },
 
   WALLET_RENAME: {

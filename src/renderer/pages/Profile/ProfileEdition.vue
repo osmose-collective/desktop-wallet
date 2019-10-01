@@ -275,7 +275,7 @@
 </template>
 
 <script>
-import { isEmpty } from 'lodash'
+import { clone, isEmpty } from 'lodash'
 import { BIP39, I18N } from '@config'
 import { InputText } from '@/components/Input'
 import { ListDivided, ListDividedItem } from '@/components/ListDivided'
@@ -312,7 +312,8 @@ export default {
       language: '',
       bip39Language: '',
       currency: '',
-      timeFormat: ''
+      timeFormat: '',
+      marketChartOptions: {}
     },
     routeLeaveCallback: null,
     tab: 'profile'
@@ -355,9 +356,14 @@ export default {
 
     isModified () {
       return Object.keys(this.modified).some(property => {
-        if (property === 'avatar' || this.modified.hasOwnProperty(property)) {
+        if (property === 'marketChartOptions') {
+          return this.modified.marketChartOptions.isEnabled !== this.profile.marketChartOptions.isEnabled
+        }
+
+        if (property === 'avatar' || Object.prototype.hasOwnProperty.call(this.modified, property)) {
           return this.modified[property] !== this.profile[property]
         }
+
         return false
       })
     },
@@ -403,7 +409,7 @@ export default {
       return this.modified.hideWalletButtonText || this.profile.hideWalletButtonText
     },
     isMarketChartEnabled () {
-      return this.modified.isMarketChartEnabled || this.profile.isMarketChartEnabled
+      return this.modified.marketChartOptions.isEnabled || this.profile.marketChartOptions.isEnabled
     },
     isMarketEnabled () {
       return this.session_network && this.session_network.market && this.session_network.market.enabled
@@ -460,6 +466,7 @@ export default {
     this.modified.bip39Language = this.profile.bip39Language
     this.modified.currency = this.profile.currency
     this.modified.timeFormat = this.profile.timeFormat || 'Default'
+    this.modified.marketChartOptions = this.profile.marketChartOptions
   },
 
   methods: {
@@ -567,7 +574,10 @@ export default {
     },
 
     async selectIsMarketChartEnabled (isMarketChartEnabled) {
-      this.__updateSession('isMarketChartEnabled', isMarketChartEnabled)
+      const marketChartOptions = clone(this.$store.getters['session/marketChartOptions'])
+      marketChartOptions.isEnabled = isMarketChartEnabled
+
+      this.__updateSession('marketChartOptions', marketChartOptions)
     },
 
     setName (event) {

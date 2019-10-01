@@ -51,6 +51,9 @@ let colors = {
   'theme-modal': 'var(--theme-modal)',
   'theme-modal-text': 'var(--theme-modal-text)',
 
+  'theme-intro-gradient-1': 'var(--theme-intro-gradient-1)',
+  'theme-intro-gradient-2': 'var(--theme-intro-gradient-2)',
+
   'theme-announcements-gradient-1': 'var(--theme-announcements-gradient-1)',
   'theme-announcements-gradient-2': 'var(--theme-announcements-gradient-2)',
 
